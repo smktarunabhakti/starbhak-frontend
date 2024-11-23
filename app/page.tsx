@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
+import CalendarEvent from "@/components/ui/event/events";
 
 
 export default function Home() {
   return (
     <div>
-      <Button>Click me</Button>
+      <CalendarEvent/>
     </div>
   );
 }
