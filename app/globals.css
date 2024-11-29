@@ -2,8 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "GeistVF";
+  src: url("./fonts/GeistVF.woff")
+}
+
+@font-face {
+  font-family: "GeistMonoVF";
+  src: url("./fonts/GeistMonoVF.woff")
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: GeistVF, GeistMonoVF, Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
@@ -11,7 +21,6 @@ body {
     text-wrap: balance;
   }
 }
-
 
 @layer base {
   :root {
@@ -67,6 +76,7 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --radius: 0.5rem;
   }
 }
 
