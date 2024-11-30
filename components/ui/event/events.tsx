@@ -1,9 +1,42 @@
 "use client";
+
+import {
+  Inject,
+  ScheduleComponent,
+  Day,
+  Week,
+  WorkWeek,
+  Month,
+  Agenda,
+  DragAndDrop,
+  Resize,
+  ResizeEventArgs,
+  DragEventArgs,
+  EventSettingsModel,
+  ViewsDirective,
+} from "@syncfusion/ej2-react-schedule";
+import { RenderCellEventArgs } from "@syncfusion/ej2-schedule";
+import { ScrollOptions } from "@syncfusion/ej2-react-schedule";
+import { NavigateOptions } from "@syncfusion/ej2-react-schedule";
+import { registerLicense } from "@syncfusion/ej2-base";
+import Calendar from "./calendar";
 import Image from "next/image";
 import React, { useState } from "react";
 import { ChevronDownIcon } from "lucide-react";
 import udin from "../../../app/Storage/logo-tb-1.png";
+
 const CalendarEvent = () => {
+
+  const data = [
+    {
+      Id: 1,
+      Subject: "Object presentation",
+      StartTime: new Date(2024, 12, 11, 10, 0),
+      EndTime: new Date(2024, 12, 11, 12, 0),
+      IsAllDay: false,
+    },
+  ];
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -27,7 +60,6 @@ const CalendarEvent = () => {
           />
         </svg>
       </div>
-
       {/* Static Navbar */}
       <div className="px-7 pt-12">
         <div className="w-full h-[105px] bg-white rounded-3xl border border-[#BDBBBB] p-9 shadow-md">
@@ -65,7 +97,6 @@ const CalendarEvent = () => {
           </div>
         </div>
       </div>
-
       {/* penanda aja */}
       <div className="relative px-7 mt-5">
         <div className="flex justify-between">
@@ -79,7 +110,6 @@ const CalendarEvent = () => {
           </div>
         </div>
       </div>
-
       {/* Main Content ini adalah sebelah calender*/}
       <div className="relative px-7 mt-8">
         <div className="w-60 h-[672px] rounded-[25px] bg-white drop-shadow-lg">
@@ -151,12 +181,12 @@ const CalendarEvent = () => {
         </div>
       </div>
 
+
       <div className="flex justify-center items-center mt-10 mb-16">
         <div className="mt-2 flex justify-center items-center w-80 h-16 bg-[#1D70B4] rounded-3xl mb-2">
           <h1 className="text-white font-bold text-3xl">Features</h1>
         </div>
       </div>
-
       <div className="justify-evenly gap-16 mb-5 inline-flex flex-wrap">
         <div className="w-72 h-44 gap-0 rounded-2xl border-2 border-solid border-black">
           <a href="">
@@ -186,7 +216,7 @@ const CalendarEvent = () => {
         </div>
         <div className="w-72 h-44 gap-0 rounded-2xl border-2 border-solid border-black">
           <a href="">
-            <p>haha</p>
+            <p>testt</p>
           </a>
         </div>
         <div className="w-72 h-44 gap-0 rounded-2xl border-2 border-solid border-black">
