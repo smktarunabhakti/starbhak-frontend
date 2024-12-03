@@ -1,41 +1,12 @@
 "use client";
 
-import {
-  Inject,
-  ScheduleComponent,
-  Day,
-  Week,
-  WorkWeek,
-  Month,
-  Agenda,
-  DragAndDrop,
-  Resize,
-  ResizeEventArgs,
-  DragEventArgs,
-  EventSettingsModel,
-  ViewsDirective,
-} from "@syncfusion/ej2-react-schedule";
-import { RenderCellEventArgs } from "@syncfusion/ej2-schedule";
-import { ScrollOptions } from "@syncfusion/ej2-react-schedule";
-import { NavigateOptions } from "@syncfusion/ej2-react-schedule";
-import { registerLicense } from "@syncfusion/ej2-base";
-import Calendar from "./calendar";
 import Image from "next/image";
 import React, { useState } from "react";
 import { ChevronDownIcon } from "lucide-react";
-import udin from "../../../app/Storage/logo-tb-1.png";
+import LogoTB from "../Storage/logo-tb-1.png";
+import CalendarApp from "@/components/custom/calendar/calendar";
 
-const CalendarEvent = () => {
-
-  const data = [
-    {
-      Id: 1,
-      Subject: "Object presentation",
-      StartTime: new Date(2024, 12, 11, 10, 0),
-      EndTime: new Date(2024, 12, 11, 12, 0),
-      IsAllDay: false,
-    },
-  ];
+export default function HomePage() {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -66,18 +37,18 @@ const CalendarEvent = () => {
           <div className="flex justify-between items-center h-full">
             {/* Gambar */}
             <div className="flex items-center">
-              <Image src={udin} alt="Logo" width={80} height={69} />
+              <Image src={LogoTB} alt="Logo" width={80} height={69} />
             </div>
 
             {/* Teks */}
             <div className="flex justify-center items-center h-full">
-              <h1 className="font-bold text-2xl">SIMS TARUNA BHAKTI</h1>
+              <h1 className="font-bold font-nunito text-2xl">SIMS TARUNA BHAKTI</h1>
             </div>
 
             {/* Tombol Log Out */}
             <div>
               <a href="" className="flex">
-                <button className="w-40 h-11 rounded bg-[#F03333] px-5 pr-2 flex items-center justify-center text-white font-semibold text-sm gap-1">
+                <button className="w-40 h-11 rounded-lg bg-[#F03333] px-5 pr-2 flex items-center justify-center text-white font-semibold text-sm gap-1 poppins-semibold">
                   <svg
                     width="27"
                     height="25"
@@ -100,19 +71,29 @@ const CalendarEvent = () => {
       {/* penanda aja */}
       <div className="relative px-7 mt-5">
         <div className="flex justify-between">
-          <div className="flex items-center justify-center  w-64 h-12  rounded-2xl bg-[#1D70B4]">
-            <h1 className="font-bold text-xl text-white">Upcoming Events</h1>
+          <div className="flex items-center justify-center w-64 h-12 rounded-2xl bg-[#1D70B4]">
+            <h3 className="font-bold text-xl text-white font-nunito">Upcoming Events</h3>
           </div>
-          <div className="flex items-center justify-center w-48 h-10  rounded-2xl bg-[#1D70B4]">
-            <h1 className="font-bold text-xl text-white text-center items-center">
-              Sumarry
-            </h1>
+          <div className="min-w-64 flex justify-center">
+          <div className="flex items-center justify-center w-48 h-12 rounded-2xl bg-[#1D70B4]">
+            <h3 className="font-bold text-xl text-white text-center items-center font-nunito">
+              Summary
+            </h3>
           </div>
+          </div>
+          
         </div>
       </div>
-      {/* Main Content ini adalah sebelah calender*/}
-      <div className="relative px-7 mt-8">
-        <div className="w-60 h-[672px] rounded-[25px] bg-white drop-shadow-lg">
+      {/* Main Content*/}
+
+    <div className="flex justify-between min-w-screen px-7 mt-8 gap-x-6">
+        {/* Full Calendar */}
+        <div className="container max-h-[672px] rounded-[25px] bg-white drop-shadow-lg flex flex-col justify-center p-1">
+            <CalendarApp />
+        </div>
+        {/* End Full Calendar */}
+
+        <div className="container min-w-56 max-w-64 h-[672px] rounded-[25px] bg-white drop-shadow-lg">
           <div className="mb-8 flex items-center justify-center">
             <div className="relative pt-8">
               <button
@@ -149,8 +130,9 @@ const CalendarEvent = () => {
             </div>
           </div>
 
-          {/* Calendar event */}
+          {/* Calendar event List */}
           <div className="flex items-center justify-center mb-8">
+            {/* Event Card */}
             <div className="w-52 h-24 rounded-[15px] border-b-[3px] border-[#204C6C] p-[10px_5px_10px] flex items-start gap-[25px]">
               <div className="gap-2 ml-3">
                 <p className="font-medium text-xs">Tgl 01, Senin</p>
@@ -177,9 +159,11 @@ const CalendarEvent = () => {
                 </svg>
               </div>
             </div>
+            {/* End Event Card */}
           </div>
+          {/* End Calendar event List */}
         </div>
-      </div>
+    </div>
 
 
       <div className="flex justify-center items-center mt-10 mb-16">
@@ -233,5 +217,3 @@ const CalendarEvent = () => {
     </div>
   );
 };
-
-export default CalendarEvent;

@@ -1,11 +1,7 @@
-import CalendarEvent from "@/components/ui/event/events";
-import Calendar from "@/components/ui/event/calendar";
 
-export default function Home() {
+
+export default function LandingPage() {
   return (
-    <div>
-      {/* <Calendar/> */}
-      <CalendarEvent />
-    </div>
+    <h1>Landing Page</h1>
   );
 }
