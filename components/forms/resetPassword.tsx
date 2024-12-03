@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
     Form,
     FormControl,
@@ -14,33 +13,36 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 
 const formSchema = z.object({
-    username: z
-        .string()
-        .min(5, {
-            message: "Username minimal 5 karakter",
-        })
-        .max(50, {
-            message: "Username maksimal 50 karakter",
-        }),
     password: z.string().min(8, {
         message: "Password minimal 8 karakter",
     }),
-});
-export function LoginForm() {
+    confirm_password: z.string().min(1, {
+        message: "Please confirm your password",
+    }),
+}).superRefine((val, ctx) => {
+    if(val.password !== val.confirm_password){
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Password harus sama',
+            path: ['confirm_password']
+        })  
+    }
+})
+
+export function ResetPassword() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            password: "",
+            confirm_password: "",
         },
-    });
+    })
 
-    // 2. Define a submit handler.
+    
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
+        
         console.log(values);
     }
     return (
@@ -53,12 +55,12 @@ export function LoginForm() {
             </div>
                 <FormField
                     control={form.control}
-                    name="username"
+                    name="password"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel>Password</FormLabel>
                             <FormControl>
-                                <Input placeholder="Email" type="email" {...field} />
+                                <Input placeholder="Password" type="Password" {...field} />
                             </FormControl>
                             <FormDescription></FormDescription>
                             <FormMessage />
@@ -67,38 +69,26 @@ export function LoginForm() {
                 />
                 <FormField
                     control={form.control}
-                    name="password"
+                    name="confirm_password"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>Confirm Password</FormLabel>
                             <FormControl>
-                                <Input placeholder="Password" type="password" {...field} />
+                                <Input placeholder="Confirm Password" type="password" {...field} />
                             </FormControl>
-                            <FormDescription></FormDescription>
+                            <FormDescription>
+                                
+                            </FormDescription>
 
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <div className="flex justify-between">
 
-                    <div className="flex items-center space-x-2">
-                        <Checkbox id="terms" />
-                        <label
-                            htmlFor="terms"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                            Ingat saya
-                        </label>
-                    </div>
-
-                    <Link href="/forgotPassword" className="text-blue-500 underline font-semibold">Lupa Password ?</Link>
-                </div>
                 <Button className="w-full font-bold hover:bg-white hover:text-blue-600" type="submit">
-                    Masuk
+                    Submit
                 </Button>
 
-                <p>Belum punya akun? <Link href="/register" className="underline text-blue-500">Daftar</Link></p>
             </form>
         </Form>
     );

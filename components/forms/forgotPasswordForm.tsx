@@ -23,7 +23,7 @@ const FormSchema = z.object({
   }),
 })
 
-export function   ForgotPasswordForm() {
+export function ForgotPasswordForm() {
   
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -36,10 +36,10 @@ export function   ForgotPasswordForm() {
     toast({
       title: "Dikirim ke email anda",
       description: (
-        // <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-        //   <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        // </pre>
-        'blala'
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+        
       ),
     })
   }

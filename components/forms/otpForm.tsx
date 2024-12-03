@@ -1,5 +1,4 @@
 "use client"
-
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -20,19 +19,22 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp"
-import { RotateCcw } from "lucide-react"
+import Envelope from "@/assets/Envelope.svg"
+import Link from "next/link"
+import Image from "next/image"
 
 const FormSchema = z.object({
-  pin: z.string().min(6, {
-    message: "Your one-time password must be 6 characters.",
-  }),
+  pin: z
+  .string()
+  .max(4, {
+    message: "Kamu harus memiliki 4 angka"})
 })
 
 export function InputOTPForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      pin: "",
+      pin: ''
     },
   })
 
@@ -50,43 +52,48 @@ export function InputOTPForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className=" w-full h-full  flex flex-col justify-center items-center gap-10">
-        <RotateCcw size={70} color="#2563eb"/>
+        <Image 
+        src={Envelope}
+        alt=""  
+        />
         <div className="space-y-10">
 
-        <FormField
-          control={form.control}
-          name="pin"
-          render={({ field }) => (
-            <FormItem className="">
-              <FormLabel className="font-bold text-3xl">Buat Ulang Password</FormLabel>
-              <p className="">Kami mengirim kode ke <span className="font-bold">emailKamu@email.com</span></p>
-              <FormControl>
-                <InputOTP maxLength={4} {...field}>
-                  <InputOTPGroup className="flex w-full justify-center items-center gap-3 mt-9">
-                    <InputOTPSlot className="border border-blue-600 rounded-md w-full h-full py-10" index={0} />
-                    <InputOTPSlot className="border border-blue-600 rounded-md w-full h-full py-10" index={1} />
-                    <InputOTPSlot className="border border-blue-600 rounded-md w-full h-full py-10" index={2} />
-                    <InputOTPSlot className="border border-blue-600 rounded-md w-full h-full py-10" index={3} />
-                    
-                  </InputOTPGroup>
-                </InputOTP>
-              </FormControl>
-              <FormDescription>
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+          <FormField
+            control={form.control}
+            name="pin"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel className="font-bold text-3xl">Buat Ulang Password</FormLabel>
+                <p className="">Kami mengirim kode ke <span className="font-bold">emailKamu@email.com</span></p>
+                <FormControl>
+                  <InputOTP 
+                  maxLength={4} {...field}
+                  >
+                    <InputOTPGroup className="flex w-full justify-center items-center gap-3 mt-9">  
+                      <InputOTPSlot className="border border-blue-600 rounded-md w-full h-full py-10" index={0} />
+                      <InputOTPSlot className="border border-blue-600 rounded-md w-full h-full py-10" index={1} />
+                      <InputOTPSlot className="border border-blue-600 rounded-md w-full h-full py-10" index={2} />
+                      <InputOTPSlot className="border border-blue-600 rounded-md w-full h-full py-10" index={3} />
+
+                    </InputOTPGroup>
+                  </InputOTP>
+                </FormControl>
+                <FormDescription>
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
 
-        <Button className="w-full hover:bg-white hover:text-blue-600" type="submit">Kirim</Button>
+          <Button className="w-full hover:bg-white hover:text-blue-600" type="submit">Kirim</Button>
 
-        <div className="flex gap-1">
-          <p className="font-thin">Tidak menerima email?</p>
-          <a href="" className="text-blue-600 font-semibold">
-            Klik untuk mengirim ulang
-          </a>
-        </div>
+          <div className="flex gap-1">
+            <p className="font-thin">Tidak menerima email?</p>
+            <Link href="" className="text-blue-600 font-semibold underline">
+              Klik untuk mengirim ulang
+            </Link>
           </div>
+        </div>
       </form>
     </Form>
   )

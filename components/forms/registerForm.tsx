@@ -14,6 +14,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 const formSchema = z.object({
     username: z
@@ -47,7 +48,7 @@ export function RegisterForm() {
     }
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-1/2">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div>
 
             <h1 className="font-bold text-2xl">Buat Akun</h1>
@@ -98,7 +99,7 @@ export function RegisterForm() {
                 
                 <Button className="w-full font-bold hover:bg-white hover:text-blue-500" type="submit">Daftar</Button>
 
-                <p>Sudah punya akun? <a href="/auth/login" className="underline text-blue-500">Masuk</a></p>
+                <p>Sudah punya akun? <Link href="/login" className="underline text-blue-500">Masuk</Link></p>
             </form>
         </Form>
     );
