@@ -4,6 +4,7 @@
 
 import { useNextCalendarApp, ScheduleXCalendar } from '@schedule-x/react'
 import {
+  CalendarEventExternal,
   createViewDay,
   createViewMonthAgenda,
   createViewMonthGrid,
@@ -13,26 +14,17 @@ import { createEventsServicePlugin } from '@schedule-x/events-service'
 import '@schedule-x/theme-default/dist/index.css'
 import {useEffect} from "react";
 import './theme.css'
+
+interface CalendarProps {
+  events: CalendarEventExternal[]
+}
  
-function CalendarApp(props: any) {
+function Calendar(props: CalendarProps) {
   const plugins = [createEventsServicePlugin()]
  
   const calendar = useNextCalendarApp({
     views: [createViewDay(), createViewWeek(), createViewMonthGrid(), createViewMonthAgenda()],
-    events: [
-      {
-        id: '1',
-        title: 'Event 1',
-        start: '2024-12-02',
-        end: '2024-12-02',
-      },
-      {
-        id: '2',
-        title: 'Event 2',
-        start: '2024-12-02 10:00',
-        end: '2024-12-02 12:00',
-      },
-    ],
+    events: props.events,
   }, plugins)
  
  useEffect(() => {
@@ -46,4 +38,4 @@ function CalendarApp(props: any) {
   )
 }
  
-export default CalendarApp
+export default Calendar

@@ -4,9 +4,24 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { ChevronDownIcon } from "lucide-react";
 import LogoTB from "../Storage/logo-tb-1.png";
-import CalendarApp from "@/components/custom/calendar/calendar";
+import Calendar from "@/components/custom/calendar/calendar";
 
 export default function HomePage() {
+
+  const events = [
+    {
+      id: '1',
+      title: 'Event 1',
+      start: '2024-12-02',
+      end: '2024-12-02',
+    },
+    {
+      id: '2',
+      title: 'Event 2',
+      start: '2024-12-02 10:00',
+      end: '2024-12-02 12:00',
+    },
+  ]
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -89,7 +104,7 @@ export default function HomePage() {
     <div className="flex justify-between min-w-screen px-7 mt-8 gap-x-6">
         {/* Full Calendar */}
         <div className="container max-h-[672px] rounded-[25px] bg-white drop-shadow-lg flex flex-col justify-center p-1">
-            <CalendarApp />
+            <Calendar events={events} />
         </div>
         {/* End Full Calendar */}
 
