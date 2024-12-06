@@ -1,5 +1,5 @@
-import { Input } from "@/components/custom/searchbar/input"
-import { Avatar,AvatarFallback,AvatarImage } from "@/components/custom/avatar/avatar"
+import { Input } from "@/components/ui/input"
+import { Avatar,AvatarFallback,AvatarImage } from "@/components/ui/avatar"
 
 export function Navbar(){
     return(
