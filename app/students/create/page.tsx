@@ -1,4 +1,5 @@
 "use client";
+import * as React from "react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
@@ -6,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
 import {
   Form,
   FormControl,
@@ -24,6 +27,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+ 
+
 
 
 const formSchema = z.object({
@@ -49,6 +61,7 @@ export default function MyForm() {
       toast.error("Failed to submit the form. Please try again.");
     }
   }
+  const [date, setDate] = React.useState<Date>()
 
   return (
     <div className="grid grid-cols-4 place-items-center min-h-screen">
@@ -211,7 +224,26 @@ export default function MyForm() {
                       <FormItem>
                         <FormLabel>Tanggal Lahir Siswa</FormLabel>
                         <FormControl>
-                          <Input placeholder="01/01/24" type="" {...field} />
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn( " block w-full text-left bg-transparent",
+                                !date && "text-muted-foreground"
+                              )}
+                            >
+                              {date ? format(date, "PPP") : <span>Pick a date</span>}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0">
+                            <Calendar
+                              mode="single"
+                              selected={date}
+                              onSelect={setDate}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
                         </FormControl>
                         <FormDescription>Tanggal lahir siswa.</FormDescription>
                         <FormMessage />
@@ -265,3 +297,4 @@ export default function MyForm() {
     </div>
   );
 }
+
