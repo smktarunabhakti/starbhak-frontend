@@ -17,8 +17,16 @@ import {
 // You can use a Zod schema here if you want.
 export type Payment = {
   id: string;
-  kejuruan: string;
-  ketua: string;
+  nisn: string;
+  nipd: string;
+  nik: string;
+  rfid: string;
+  gender: string;
+  email: string;
+  name: string;
+  dob: string;
+  pob: string;
+  starting_school_years: string;
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -49,12 +57,44 @@ export const columns: ColumnDef<Payment>[] = [
     header: "id",
   },
   {
-    accessorKey: "kejuruan",
-    header: "Kejuruan",
+    accessorKey: "nisn",
+    header: "NISN",
   },
   {
-    accessorKey: "ketua",
-    header: "Ketua jurusan",
+    accessorKey: "nipd",
+    header: "NIPD",
+  },
+  {
+    accessorKey: "nik",
+    header: "NIK",
+  },
+  {
+    accessorKey: "rfid",
+    header: "RFID",
+  },
+  {
+    accessorKey: "gender",
+    header: "Jenis Kelamin",
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "name",
+    header: "Nama",
+  },
+  {
+    accessorKey: "dob",
+    header: "Tanggal Lahir",
+  },
+  {
+    accessorKey: "pob",
+    header: "Tempat Lahir",
+  },
+  {
+    accessorKey: "starting_school_years",
+    header: "Tahun Ajaran",
   },
   {
     id: "actions",
