@@ -17,6 +17,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+
 const formSchema = z.object({
   name_2028579058: z.string(),
   name_6271945838: z.string(),
@@ -138,7 +147,15 @@ export default function MyForm() {
                       <FormItem>
                         <FormLabel>Jenis Kelamin Siswa</FormLabel>
                         <FormControl>
-                          <Input placeholder="Jenis Kelamin" type="" {...field} />
+                        <Select>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Jenis Kelamin" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="laki=laki">Laki-laki</SelectItem>
+                            <SelectItem value="perempuan">Perempuan</SelectItem>
+                          </SelectContent>
+                        </Select>
                         </FormControl>
                         <FormDescription>Jenis Kelamin Siswa.</FormDescription>
                         <FormMessage />
