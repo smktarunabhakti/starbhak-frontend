@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,9 +18,13 @@ import {
 // You can use a Zod schema here if you want.
 export type Payment = {
   id: string;
-  kejuruan: string;
-  ketua: string;
-  status: "Is active" | "Isnt active";
+  email: string;
+  name: string;
+  DoB: string;
+  PoB: string;
+  gender: string;
+  user_id: string;
+  isActive: "Is active" | "Isnt active";
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -50,17 +55,46 @@ export const columns: ColumnDef<Payment>[] = [
     header: "id",
   },
   {
-    accessorKey: "kejuruan",
-    header: "Kejuruan",
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
-    accessorKey: "ketua",
-    header: "Ketua jurusan",
+    accessorKey: "email",
+    header: "email",
+  },
+
+  {
+    accessorKey: "DoB",
+    header: "DoB",
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "PoB",
+    header: "PoB",
   },
+  {
+    accessorKey: "gender",
+    header: "gender",
+  },
+
+  {
+    accessorKey: "user_id",
+    header: "user_id",
+  },
+  {
+    accessorKey: "isActive",
+    header: "isActive",
+  },
+
   {
     id: "actions",
     cell: ({ row }) => {

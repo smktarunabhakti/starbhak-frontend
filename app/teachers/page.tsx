@@ -29,21 +29,33 @@ async function getData(): Promise<Payment[]> {
   return [
     {
       id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
+      DoB: "21/4/2000",
+      PoB: "Jakarta",
+      gender: "Wanita",
+      email: "miranda@gmail.com",
+      name: "Miranda S.pd",
+      user_id: "82123hab",
+      isActive: "Is active",
     },
     {
       id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
+      DoB: "21/4/2000",
+      PoB: "Jakarta",
+      gender: "Wanita",
+      email: "miranda@gmail.com",
+      name: "Miranda S.pd",
+      user_id: "82123hab",
+      isActive: "Is active",
     },
     {
       id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
+      DoB: "21/4/2000",
+      PoB: "Jakarta",
+      gender: "Wanita",
+      email: "miranda@gmail.com",
+      name: "Miranda S.pd",
+      user_id: "82123hab",
+      isActive: "Is active",
     },
   ];
 }
@@ -66,7 +78,7 @@ export default async function Page() {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Kejuruan</BreadcrumbPage>
+                    <BreadcrumbPage>Guru</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
@@ -75,7 +87,23 @@ export default async function Page() {
           <div className="flex items-center justify-between p-4 pt-4">
             <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
               <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
-                <School
+                <Users
+                  height={52}
+                  width={52}
+                  className="text-[hsl(var(--chart-1))]"
+                />
+              </div>
+
+              <div className="text-right px-2">
+                <h3 className="text-2xl font-bold text-[hsl(var(--chart-1))]">
+                  5
+                </h3>
+                <p className="text-sm text-muted-foreground">Total Guru</p>
+              </div>
+            </div>
+            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
+              <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
+                <Users
                   height={52}
                   width={52}
                   className="text-[hsl(var(--chart-2))]"
@@ -86,14 +114,47 @@ export default async function Page() {
                 <h3 className="text-2xl font-bold text-[hsl(var(--chart-2))]">
                   5
                 </h3>
-                <p className="text-sm text-muted-foreground">Jurusan</p>
+                <p className="text-sm text-muted-foreground">Guru Wanita</p>
               </div>
             </div>
+            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
+              <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
+                <Users
+                  height={52}
+                  width={52}
+                  className="text-[hsl(var(--chart-3))]"
+                />
+              </div>
+
+              <div className="text-right px-2">
+                <h3 className="text-2xl font-bold text-[hsl(var(--chart-3))]">
+                  5
+                </h3>
+                <p className="text-sm text-muted-foreground">Guru Pria</p>
+              </div>
+            </div>
+            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
+              <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
+                <Users
+                  height={52}
+                  width={52}
+                  className="text-[hsl(var(--chart-4))]"
+                />
+              </div>
+
+              <div className="text-right px-2">
+                <h3 className="text-2xl font-bold text-[hsl(var(--chart-4))]">
+                  5
+                </h3>
+                <p className="text-sm text-muted-foreground">Guru Aktif</p>
+              </div>
+            </div>
+
             <Button
               variant="outline"
               className="flex items-center justify-between p-4"
             >
-              <a href="/majors/create">Add new major +</a>
+              <a href="/teachers/create">Add new teacher +</a>
             </Button>
           </div>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-4">

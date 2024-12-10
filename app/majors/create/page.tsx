@@ -16,10 +16,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
-  name_2028579058: z.string(),
-  name_6271945838: z.string(),
+  name_7724100898: z.string(),
+  name_6121817967: z.string(),
+  name_3641742571: z.string(),
 });
 
 export default function MyForm() {
@@ -42,60 +50,75 @@ export default function MyForm() {
   }
 
   return (
-    <div className="grid grid-cols-4 place-items-center min-h-screen">
-      <div className="col-span-2 col-start-2">
-        <h1 className="text-xl font-bold">Kejuruan Baru</h1>
-        <div className="rounded-xl dark:bg-muted/50 col-span-1 p-5">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8 max-w-3xl mx-auto py-10"
-            >
-              <div className="grid grid-cols-12 gap-4">
-                <div className="col-span-6">
-                  <FormField
-                    control={form.control}
-                    name="name_2028579058"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nama Kejuruan</FormLabel>
-                        <FormControl>
-                          <Input placeholder="PPLG" type="" {...field} />
-                        </FormControl>
-                        <FormDescription>Nama kejuruan baru.</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+    <div className="flex flex-1 flex-col p-4 pt-6 max-w-lg mx-auto">
+      {/* <div className="col-span-3 col-start-2"> */}
+      <h1 className="text-xl font-bold">Kejuruan Baru</h1>
+      <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 p-8">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 max-w-3xl mx-auto py-10"
+          >
+            <FormField
+              control={form.control}
+              name="name_7724100898"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="PPLG" type="" {...field} />
+                  </FormControl>
+                  <FormDescription>Nama kejuruan</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-                <div className="col-span-6">
-                  <FormField
-                    control={form.control}
-                    name="name_6271945838"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Ketua Jurusan</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Miranda S.pd"
-                            type=""
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormDescription>Ketua jurusan baru</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              <Button 
-              type="submit">Submit</Button>
-            </form>
-          </Form>
-        </div>
+            <FormField
+              control={form.control}
+              name="name_6121817967"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Id kepala jurusan</FormLabel>
+                  <FormControl>
+                    <Input placeholder="6531HYV" type="" {...field} />
+                  </FormControl>
+                  <FormDescription>Id kepala jurusan</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="name_3641742571"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Status</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Is active" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Is_active">Is active</SelectItem>
+                      <SelectItem value="Isnt_active">Isnt active</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>Status keaftifan kejuruan</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Submit</Button>
+          </form>
+        </Form>
       </div>
     </div>
+    // </div>
   );
 }
