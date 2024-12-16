@@ -22,12 +22,166 @@ import { DataTable } from "./data-table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+
 import { Link, School, Users } from "lucide-react";
 
 async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
   return [
+    { 
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Laki-laki",
+      email: "123@321.com",
+      name: "Udin",
+      dob: "11/12/2008",
+      pob: "Bandung",
+      starting_school_years:"2024/2025",
+    },
     {
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Perempuan",
+      email: "123@321.com",
+      name: "Alice",
+      dob: "11/12/2008",
+      pob: "Jakarta",
+      starting_school_years:"2023/2024",
+    },
+    {
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Laki-laki",
+      email: "123@321.com",
+      name: "Joko",
+      dob: "11/12/2008",
+      pob: "Sukabumi",
+      starting_school_years:"2022/2023",
+    },
+    { 
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Laki-laki",
+      email: "123@321.com",
+      name: "Udin",
+      dob: "11/12/2008",
+      pob: "Bandung",
+      starting_school_years:"2024/2025",
+    },
+    {
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Perempuan",
+      email: "123@321.com",
+      name: "Alice",
+      dob: "11/12/2008",
+      pob: "Jakarta",
+      starting_school_years:"2023/2024",
+    },
+    {
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Laki-laki",
+      email: "123@321.com",
+      name: "Joko",
+      dob: "11/12/2008",
+      pob: "Sukabumi",
+      starting_school_years:"2022/2023",
+    },{ 
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Laki-laki",
+      email: "123@321.com",
+      name: "Udin",
+      dob: "11/12/2008",
+      pob: "Bandung",
+      starting_school_years:"2024/2025",
+    },
+    {
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Perempuan",
+      email: "123@321.com",
+      name: "Alice",
+      dob: "11/12/2008",
+      pob: "Jakarta",
+      starting_school_years:"2023/2024",
+    },
+    {
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Laki-laki",
+      email: "123@321.com",
+      name: "Joko",
+      dob: "11/12/2008",
+      pob: "Sukabumi",
+      starting_school_years:"2022/2023",
+    },{ 
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Laki-laki",
+      email: "123@321.com",
+      name: "Udin",
+      dob: "11/12/2008",
+      pob: "Bandung",
+      starting_school_years:"2024/2025",
+    },
+    {
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Perempuan",
+      email: "123@321.com",
+      name: "Alice",
+      dob: "11/12/2008",
+      pob: "Jakarta",
+      starting_school_years:"2023/2024",
+    },
+    {
+      id: "728ed52f",
+      nisn: "12345678",
+      nipd: "87654321",
+      nik: "0012345678",
+      rfid: "445557897",
+      gender: "Laki-laki",
+      email: "123@321.com",
+      name: "Joko",
+      dob: "11/12/2008",
+      pob: "Sukabumi",
+      starting_school_years:"2022/2023",
+    },
+    { 
       id: "728ed52f",
       nisn: "12345678",
       nipd: "87654321",
@@ -158,12 +312,6 @@ export default async function Page() {
                 <p className="text-sm text-muted-foreground">Kelas XII</p>
               </div>
             </div>
-            <Button
-              variant="outline"
-              className="flex items-center justify-between p-4 ml-20"
-            >
-              <a href="/students/create">Add new student +</a>
-            </Button>
           </div>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
             <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-4">

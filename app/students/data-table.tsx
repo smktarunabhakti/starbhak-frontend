@@ -1,11 +1,19 @@
 "use client";
 
+import * as React from "react"
+
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 import {
   Table,
@@ -25,14 +33,42 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      columnFilters,
+    },
   });
 
+  
   return (
     <div className="">
+      <div className="flex items-center p-4 relative  ">
+        <Input
+          placeholder="Cari Siswa" 
+          value={(table.getColumn(("name"))?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn(("name"))?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+        <Button
+          variant="outline"
+          className="flex items-center absolute right-4" 
+        >
+          <a href="/students/create">Add new student +</a>
+        </Button>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -53,7 +89,7 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="h-44">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -82,6 +118,25 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+      </div>
+      <div className="flex items-center justify-end space-x-2 p-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
       </div>
       <div className="flex items-center justify-end space-x-2 p-2">
         <div className="flex-1 text-sm text-muted-foreground">
