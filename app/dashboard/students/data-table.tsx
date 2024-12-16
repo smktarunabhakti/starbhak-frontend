@@ -66,7 +66,7 @@ export function DataTable<TData, TValue>({
           variant="outline"
           className="flex items-center absolute right-4" 
         >
-          <a href="/students/create">Add new student +</a>
+          <a href="/dashboard/students/create">Add new student +</a>
         </Button>
       </div>
       <div className="rounded-md border">
