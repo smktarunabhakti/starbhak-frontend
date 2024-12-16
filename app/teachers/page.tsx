@@ -84,8 +84,8 @@ export default async function Page() {
               </Breadcrumb>
             </div>
           </header>
-          <div className="flex items-center justify-between p-4 pt-4">
-            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
+          <div className="grid grid-cols-4 items-center justify-around p-4 gap-4">
+            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 flex items-center justify-between p-4 aspect-[1/0.5] ">
               <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
                 <Users
                   height={52}
@@ -101,7 +101,7 @@ export default async function Page() {
                 <p className="text-sm text-muted-foreground">Total Guru</p>
               </div>
             </div>
-            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
+            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 flex items-center justify-between p-4 aspect-[1/0.5] ">
               <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
                 <Users
                   height={52}
@@ -117,7 +117,7 @@ export default async function Page() {
                 <p className="text-sm text-muted-foreground">Guru Wanita</p>
               </div>
             </div>
-            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
+            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 flex items-center justify-between p-4 aspect-[1/0.5] ">
               <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
                 <Users
                   height={52}
@@ -133,7 +133,7 @@ export default async function Page() {
                 <p className="text-sm text-muted-foreground">Guru Pria</p>
               </div>
             </div>
-            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
+            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 flex items-center justify-between p-4 aspect-[1/0.5] ">
               <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
                 <Users
                   height={52}
@@ -149,13 +149,6 @@ export default async function Page() {
                 <p className="text-sm text-muted-foreground">Guru Aktif</p>
               </div>
             </div>
-
-            <Button
-              variant="outline"
-              className="flex items-center justify-between p-4"
-            >
-              <a href="/teachers/create">Add new teacher +</a>
-            </Button>
           </div>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
             <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-4">

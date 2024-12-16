@@ -89,12 +89,6 @@ export default async function Page() {
                 <p className="text-sm text-muted-foreground">Jurusan</p>
               </div>
             </div>
-            <Button
-              variant="outline"
-              className="flex items-center justify-between p-4"
-            >
-              <a href="/majors/create">Add new major +</a>
-            </Button>
           </div>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
             <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-4">

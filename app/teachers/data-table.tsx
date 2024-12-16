@@ -53,8 +53,8 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="">
-      <div className="flex items-center p-4">
+    <div className="p-6">
+      <div className="flex items-center p-4 justify-between">
         <Input
           placeholder="Filter names..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -63,6 +63,12 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        <Button
+          variant="outline"
+          className="flex items-center justify-between p-4"
+        >
+          <a href="/teachers/create">Add new teacher +</a>
+        </Button>
       </div>
       <div className="rounded-md border">
         <Table>
