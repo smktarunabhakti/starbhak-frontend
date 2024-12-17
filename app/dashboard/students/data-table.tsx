@@ -50,6 +50,18 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const [currentpage , setcurrentpage] = React.useState(1)
+
+  const nextpage = () => {
+    table.nextPage();
+    setcurrentpage((page) => page + 1);
+  }
+
+  const prevpage = () => {
+    table.previousPage();
+    setcurrentpage((page) => page - 1);
+  }
+
   
   return (
     <div className="">
@@ -123,16 +135,16 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
+          onClick={prevpage}
           disabled={!table.getCanPreviousPage()}
         >
           Previous
         </Button>
-        
+        <p>{currentpage}</p>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
+          onClick={nextpage}
           disabled={!table.getCanNextPage()}
         >
           Next
