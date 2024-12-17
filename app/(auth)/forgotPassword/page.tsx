@@ -1,10 +1,12 @@
+"use client"
+
 import { ForgotPasswordForm } from "@/components/forms/forgotPasswordForm";
 import Lock  from "@/assets/Lock.svg";
 import Image from "next/image";
 import bgForgotPassword from "@/assets/bgforgotPassword.svg"
-import wave from "@/assets/Waves3.svg"
 import backButton from "@/assets/backButton.svg"
 import Link from "next/link";
+import { WaveForAuth } from "@/components/custom/waves";
 
 export default function ForgotPasswordPage() {
     return (
@@ -19,12 +21,8 @@ export default function ForgotPasswordPage() {
                         
                     />
 
-                    <div className="absolute bottom-0 w-full">
-
-                        <Image
-                            src={wave}
-                            alt=""
-                        />
+                    <div className="absolute w-full bottom-0">
+                        <WaveForAuth />
                     </div>
                 </div>
 

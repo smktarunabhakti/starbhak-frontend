@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     username: z
@@ -33,6 +35,9 @@ const formSchema = z.object({
 });
 
 export function RegisterForm() {
+
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -40,11 +45,28 @@ export function RegisterForm() {
         },
     });
 
-    // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values);
+        
+        let action = fetch("/actions/register", {
+            method: "POST",
+            body: JSON.stringify(values),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            cache: "no-cache",
+        })
+
+        toast.promise(action, {
+            loading: "Loading...",
+            success: async (data) => {
+                if(data.status != 200){
+                    toast.error((await data.json()).message ?? "ERROR ON REQUEST!");
+                    return;
+                }
+                router.push("/login")
+                return "Register success!"
+            },
+        });
     }
     return (
         <Form {...form}>

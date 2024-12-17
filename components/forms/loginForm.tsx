@@ -15,45 +15,67 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner"
 
 const formSchema = z.object({
-    username: z
+    email: z
         .string()
         .min(5, {
-            message: "Username minimal 5 karakter",
+            message: "Email minimal 5 karakter",
         })
         .max(50, {
-            message: "Username maksimal 50 karakter",
+            message: "Email maksimal 50 karakter",
         }),
     password: z.string().min(8, {
         message: "Password minimal 8 karakter",
     }),
 });
 export function LoginForm() {
+
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            email: "",
         },
     });
 
-    // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values);
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+
+        let action = fetch("/actions/login", {
+            method: "POST",
+            body: JSON.stringify(values),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            cache: "no-cache",
+        })
+
+        toast.promise(action, {
+            loading: "Loading...",
+            success: async (data) => {
+                if(data.status != 200){
+                    toast.error((await data.json()).message ?? "ERROR ON REQUEST!");
+                    return;
+                }
+                router.push("/")
+                return "Login success!"
+            },
+        });
     }
     return (
 
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="py-2">
-            <h1 className="font-bold text-2xl">Selamat Datang di SIMS</h1>
+            <h1 className="font-bold text-2xl">Selamat Datang di Starbhak Apps</h1>
             <h2 className="font-semibold text-sm">Masukkan email dan password anda untuk mengakses akun</h2>
             </div>
                 <FormField
                     control={form.control}
-                    name="username"
+                    name="email"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Email</FormLabel>

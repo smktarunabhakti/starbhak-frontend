@@ -1,7 +1,9 @@
+"use client"
+
 import { InputOTPForm } from "@/components/forms/otpForm";
 import Image from "next/image";
 import bgResetPassword from "@/assets/bgResetPassword.svg"
-import wave from "@/assets/wave5.svg"
+import { WaveForAuth } from "@/components/custom/waves";
 
 export default function otpPage() {
     return (
@@ -14,11 +16,8 @@ export default function otpPage() {
             alt=""
             />
 
-            <div className="absolute bottom-0">
-            <Image
-            src={wave}
-            alt=""
-            />
+            <div className="absolute w-full bottom-0">
+                <WaveForAuth />
             </div>
         </div>
 

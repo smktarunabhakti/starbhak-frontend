@@ -1,7 +1,9 @@
+"use client"
+
 import { ResetPassword } from "@/components/forms/resetPassword";
 import Image from "next/image";
 import bgLogin from "@/assets/bgLogin.svg";
-import wave from "@/assets/Waves.svg";
+import { WaveForAuth } from "@/components/custom/waves";
 
 
 export default function ResetPasswordPage() {
@@ -17,13 +19,9 @@ export default function ResetPasswordPage() {
                     alt=""
                     />
                     
-                    <div className="absolute bottom-0 w-full">
-                        
-                        <Image
-                        src={wave}
-                        alt=""
-                        />
-                    </div>  
+                    <div className="absolute w-full bottom-0">
+                        <WaveForAuth />
+                    </div> 
                 </div>
 
                 <div className="w-full h-full flex flex-col justify-center items-center">

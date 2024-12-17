@@ -1,7 +1,9 @@
+"use client"
+
 import { RegisterForm } from "@/components/forms/registerForm";
 import Image from "next/image";
 import bgRegister from "@/assets/bgRegister.svg"
-import wave from "@/assets/wave4.svg"
+import { WaveForAuth } from "@/components/custom/waves";
 
 export default function RegisterPage() {
     return (
@@ -20,11 +22,8 @@ export default function RegisterPage() {
                     alt=""
                     />
 
-                    <div className="absolute bottom-0 w-full">
-                    <Image
-                    src={wave}
-                    alt=""  
-                    />
+                    <div className="absolute w-full bottom-0">
+                        <WaveForAuth />
                     </div>
                 </div>
 

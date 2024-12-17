@@ -1,8 +1,10 @@
+"use client"
 import Image from "next/image";
 import bgSuccessReset from "@/assets/bgSuccess.svg";
 import wave from "@/assets/wave6.svg";
 import check from "@/assets/Check.svg";
 import { Button } from "../ui/button";
+import { WaveForAuth } from "../custom/waves";
 
 export function SuccessValidate() {
   return (
@@ -11,9 +13,9 @@ export function SuccessValidate() {
         <div className="w-full h-full flex justify-center items-center relative bg-blue-600 rounded-r-3xl">
           <Image src={bgSuccessReset} alt="" />
 
-          <div className="absolute bottom-0 w-full">
-            <Image src={wave} alt="" />
-          </div>
+           <div className="absolute w-full bottom-0">
+              <WaveForAuth />
+            </div> 
         </div>
 
         <div className="w-full h-full flex flex-col justify-center items-center p-2 gap-16">
