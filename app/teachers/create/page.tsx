@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Toaster } from "@/components/ui/sonner";
 import * as z from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -31,41 +32,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { addTeachers } from "./add-teacher";
 
 const formSchema = z.object({
-  name_7724100898: z.string(),
-  name_2210850007: z.coerce.date(),
-  name_5733329552: z.string(),
-  name_7724660422: z.string(),
-  name_2310561372: z.string(),
-  name_0152061647: z.string(),
+  name: z.string(),
+  DoB: z.coerce.date(),
+  PoB: z.string(),
+  gender: z.string(),
+  email: z.string(),
+  isActive: z.string(),
 });
 
 export default function MyForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name_2210850007: new Date(),
+      name: "",
+      DoB: new Date(),
+      PoB: "",
+      gender: "",
+      email: "",
+      isActive: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
-    } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
-    }
+    addTeachers(values);
   }
 
   return (
     <div className="flex flex-1 flex-col p-4 pt-6 max-w-lg mx-auto">
       <h1 className="text-xl font-bold">Guru Baru</h1>
+      <Toaster />
       <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 p-8">
         <Form {...form}>
           <form
@@ -74,7 +72,7 @@ export default function MyForm() {
           >
             <FormField
               control={form.control}
-              name="name_7724100898"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
@@ -93,7 +91,7 @@ export default function MyForm() {
 
             <FormField
               control={form.control}
-              name="name_2210850007"
+              name="DoB"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Tanggal Lahir</FormLabel>
@@ -133,7 +131,7 @@ export default function MyForm() {
 
             <FormField
               control={form.control}
-              name="name_5733329552"
+              name="PoB"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tempat Lahir</FormLabel>
@@ -152,7 +150,7 @@ export default function MyForm() {
 
             <FormField
               control={form.control}
-              name="name_7724660422"
+              name="gender"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Jenis Kelamin</FormLabel>
@@ -166,8 +164,8 @@ export default function MyForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="Pria">Pria</SelectItem>
-                      <SelectItem value="Wanita">Wanita</SelectItem>
+                      <SelectItem value="Male">Male</SelectItem>
+                      <SelectItem value="Female">Female</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormDescription>Jenis kelamin guru</FormDescription>
@@ -178,7 +176,7 @@ export default function MyForm() {
 
             <FormField
               control={form.control}
-              name="name_2310561372"
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>E-mail</FormLabel>
@@ -199,10 +197,10 @@ export default function MyForm() {
 
             <FormField
               control={form.control}
-              name="name_0152061647"
+              name="isActive"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Status</FormLabel>
+                  <FormLabel>isActive</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -217,7 +215,7 @@ export default function MyForm() {
                       <SelectItem value="Isnt active">Isnt active</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormDescription>Status keaftifan guru</FormDescription>
+                  <FormDescription>status keaftifan guru</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

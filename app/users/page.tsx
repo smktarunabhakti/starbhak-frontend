@@ -1,7 +1,7 @@
 "use client";
 
 import { AppSidebar } from "@/components/custom/sidebar/app-sidebar";
-
+import { useState, useEffect } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,50 +24,35 @@ import { Button } from "@/components/ui/button";
 
 import { Link, School, Users } from "lucide-react";
 
+// async function getData(): Promise<Payment[]> {
+//   // Fetch from localStorage or use fallback data
+//   return JSON.parse(localStorage.getItem("teacherData") || "[]");
+// }
 async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
   return [
     {
       id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
+      email: "miranda@gmail.com",
+      name: "Miranda S.pd",
+      roleId: "82123hab",
+      isActive: "Is active",
+      lastLogin: "20/4/2024"
     },
     {
       id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
+      email: "miranda@gmail.com",
+      name: "Miranda S.pd",
+      roleId: "82123hab",
+      isActive: "Is active",
+      lastLogin: "20/4/2024"
     },
     {
       id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
+      email: "miranda@gmail.com",
+      name: "Miranda S.pd",
+      roleId: "82123hab",
+      isActive: "Is active",
+      lastLogin: "20/4/2024"
     },
   ];
 }
@@ -85,21 +70,37 @@ export default async function Page() {
               <Separator orientation="vertical" className="mr-2 h-4" />
               <Breadcrumb>
                 <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbItem className="hidden md:block">
                     <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Kejuruan</BreadcrumbPage>
+                    <BreadcrumbPage>Guru</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
           </header>
-          <div className="flex items-center justify-between p-4 pt-4">
-            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
+          <div className="grid grid-cols-4 items-center justify-around p-4 gap-4">
+            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 flex items-center justify-between p-4 aspect-[1/0.5] ">
               <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
-                <School
+                <Users
+                  height={52}
+                  width={52}
+                  className="text-[hsl(var(--chart-1))]"
+                />
+              </div>
+
+              <div className="text-right px-2">
+                <h3 className="text-2xl font-bold text-[hsl(var(--chart-1))]">
+                  5
+                </h3>
+                <p className="text-sm text-muted-foreground">User aktif</p>
+              </div>
+            </div>
+            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 flex items-center justify-between p-4 aspect-[1/0.5] ">
+              <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
+                <Users
                   height={52}
                   width={52}
                   className="text-[hsl(var(--chart-2))]"
@@ -110,7 +111,23 @@ export default async function Page() {
                 <h3 className="text-2xl font-bold text-[hsl(var(--chart-2))]">
                   5
                 </h3>
-                <p className="text-sm text-muted-foreground">Jurusan</p>
+                <p className="text-sm text-muted-foreground">User Siswa</p>
+              </div>
+            </div>
+            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 flex items-center justify-between p-4 aspect-[1/0.5] ">
+              <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
+                <Users
+                  height={52}
+                  width={52}
+                  className="text-[hsl(var(--chart-3))]"
+                />
+              </div>
+
+              <div className="text-right px-2">
+                <h3 className="text-2xl font-bold text-[hsl(var(--chart-3))]">
+                  5
+                </h3>
+                <p className="text-sm text-muted-foreground">User guru</p>
               </div>
             </div>
           </div>

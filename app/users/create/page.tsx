@@ -3,7 +3,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Toaster } from "@/components/ui/sonner";
 import * as z from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -24,32 +23,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { addMajors } from "./add-majors";
+import { Toaster } from "@/components/ui/sonner";
+import { addUsers } from "./add-users";
 
 const formSchema = z.object({
+  email: z.string(),
   name: z.string(),
-  majors_head_id: z.string(),
-  isActive: z.string(),
+  role: z.string(),
+  status: z.string(),
 });
 
 export default function MyForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      email: "",
       name: "",
-      majors_head_id: "",
-      isActive: "",
+      role: "",
+      status: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    addMajors(values);
+    addUsers(values);
   }
 
   return (
     <div className="flex flex-1 flex-col p-4 pt-6 max-w-lg mx-auto">
-      {/* <div className="col-span-3 col-start-2"> */}
-      <h1 className="text-xl font-bold">Kejuruan Baru</h1>
+      <h1 className="text-xl font-bold">User Baru</h1>
       <Toaster />
       <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 p-8">
         <Form {...form}>
@@ -59,14 +60,33 @@ export default function MyForm() {
           >
             <FormField
               control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>E-mail</FormLabel>
+                  <FormControl>
+                    <Input placeholder="afton@gmail.com" type="" {...field} />
+                  </FormControl>
+                  <FormDescription>email user</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="PPLG" type="" {...field} />
+                    <Input
+                      placeholder="jeff the land shark"
+                      type=""
+                      {...field}
+                    />
                   </FormControl>
-                  <FormDescription>Nama kejuruan</FormDescription>
+                  <FormDescription>Nama user</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -74,14 +94,26 @@ export default function MyForm() {
 
             <FormField
               control={form.control}
-              name="majors_head_id"
+              name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Id kepala jurusan</FormLabel>
-                  <FormControl>
-                    <Input placeholder="6531HYV" type="" {...field} />
-                  </FormControl>
-                  <FormDescription>Id kepala jurusan</FormDescription>
+                  <FormLabel>Role</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Guru" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="guru">guru</SelectItem>
+                      <SelectItem value="siswa">siswa</SelectItem>
+                      <SelectItem value="staf">staf</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>role user</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -89,7 +121,7 @@ export default function MyForm() {
 
             <FormField
               control={form.control}
-              name="isActive"
+              name="status"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
@@ -107,7 +139,7 @@ export default function MyForm() {
                       <SelectItem value="Isnt_active">Isnt active</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormDescription>Status keaftifan kejuruan</FormDescription>
+                  <FormDescription>Status keafktifan user</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

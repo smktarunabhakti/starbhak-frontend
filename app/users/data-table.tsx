@@ -1,13 +1,18 @@
 "use client";
 
 import {
+  SortingState,
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel,
   useReactTable,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -16,8 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import React from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -28,11 +32,24 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+    },
   });
 
   return (
@@ -40,11 +57,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center p-4 justify-between">
         <Input
           placeholder="Filter names..."
-          value={
-            (table.getColumn("kejuruan")?.getFilterValue() as string) ?? ""
-          }
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("kejuruan")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -52,7 +67,7 @@ export function DataTable<TData, TValue>({
           variant="outline"
           className="flex items-center justify-between p-4"
         >
-          <a href="/majors/create">Add new major +</a>
+          <a href="/users/create">Add new user +</a>
         </Button>
       </div>
       <div className="rounded-md border">
@@ -121,7 +136,7 @@ export function DataTable<TData, TValue>({
           </Button>
           <Button
             variant="outline"
-            size="sm"   
+            size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
