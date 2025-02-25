@@ -29,93 +29,10 @@ async function getData(): Promise<Payment[]> {
   return [
     {
       id: "1",
-      id_mapel: "728ed52f",
-      Mapel: "Bahasa",
-      status: "Is active",
-    },
-    {
-      id: "2",
-      id_mapel: "728ed52f",
-      Mapel: "MTK",
-      status: "Is active",
-    },
-    {
-      id: "3",
-      id_mapel: "728ed52f",
-      Mapel: "IPAS",
-      status: "Is active",
-    },
-    {
-      id: "1",
-      id_mapel: "728ed52f",
-      Mapel: "Bahasa",
-      status: "Is active",
-    },
-    {
-      id: "2",
-      id_mapel: "728ed52f",
-      Mapel: "MTK",
-      status: "Is active",
-    },
-    {
-      id: "3",
-      id_mapel: "728ed52f",
-      Mapel: "IPAS",
-      status: "Is active",
-    },
-    {
-      id: "4",
-      id_mapel: "728ed52f",
-      Mapel: "Bahasa",
-      status: "Is active",
-    },
-    {
-      id: "5",
-      id_mapel: "728ed52f",
-      Mapel: "MTK",
-      status: "Is active",
-    },
-    {
-      id: "6",
-      id_mapel: "728ed52f",
-      Mapel: "IPAS",
-      status: "Is active",
-    },
-    {
-      id: "7",
-      id_mapel: "728ed52f",
-      Mapel: "Bahasa",
-      status: "Is active",
-    },
-    {
-      id: "8",
-      id_mapel: "728ed52f",
-      Mapel: "MTK",
-      status: "Is active",
-    },
-    {
-      id: "9",
-      id_mapel: "728ed52f",
-      Mapel: "IPAS",
-      status: "Is active",
-    },
-    {
-      id: "10",
-      id_mapel: "728ed52f",
-      Mapel: "Bahasa",
-      status: "Is active",
-    },
-    {
-      id: "11",
-      id_mapel: "728ed52f",
-      Mapel: "MTK",
-      status: "Is active",
-    },
-    {
-      id: "12",
-      id_mapel: "728ed52f",
-      Mapel: "IPAS",
-      status: "Is active",
+      uuid: "728ed52f",
+      day_of_week: "2",
+      start_at: "11:00",
+      end_at: "12:00"
     },
   ];
 }
@@ -135,7 +52,7 @@ export default async function Page() {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Kejuruan</BreadcrumbPage>
+                    <BreadcrumbPage></BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>

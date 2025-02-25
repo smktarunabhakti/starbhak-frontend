@@ -36,5 +36,3 @@ yarn-error.log*
 next-env.d.ts
 
 #files for commit on another branch
-app/dashboard/study-groups
-app/dashboard/students
