@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#files for commit on another branch
+app/dashboard/study-groups
+app/dashboard/students
