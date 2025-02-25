@@ -12,8 +12,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 import {
   Table,
@@ -35,42 +35,42 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
+  );
 
   const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      columnFilters,
-    },
-  });
+      data,
+      columns,
+      getCoreRowModel: getCoreRowModel(),
+      getPaginationRowModel: getPaginationRowModel(),
+      onColumnFiltersChange: setColumnFilters,
+      getFilteredRowModel: getFilteredRowModel(),
+      state: {
+        columnFilters,
+      },
+    });
 
   const [currentpage , setcurrentpage] = React.useState(1)
-
+  
   const nextpage = () => {
     table.nextPage();
     setcurrentpage((page) => page + 1);
   }
-
+  
   const prevpage = () => {
     table.previousPage();
     setcurrentpage((page) => page - 1);
   }
 
-  
+
   return (
     <div className="">
-      <p className="text-3xl px-5 mt-5">Siswa</p>
+      <p className="text-3xl px-5 mt-5">Mata Pelajaran</p>
       <div className="flex items-center p-4 relative  ">
         <Input
-          placeholder="Cari Siswa" 
-          value={(table.getColumn(("name"))?.getFilterValue() as string) ?? ""}
+          placeholder="Cari Mata Pelajaran" 
+          value={(table.getColumn(("Mapel"))?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn(("name"))?.setFilterValue(event.target.value)
+            table.getColumn(("Mapel"))?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
           variant="outline"
           className="flex items-center absolute right-4" 
         >
-          <a href="/dashboard/students/create">Add new student +</a>
+          <a href="/dashboard/subject/create">Add new subject +</a>
         </Button>
       </div>
       <div className="rounded-md border">
@@ -101,7 +101,7 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="h-44">
+          <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -131,25 +131,25 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 p-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={prevpage}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <p>{currentpage}</p>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={nextpage}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
+        <div className="flex items-center justify-end space-x-2 p-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={prevpage}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <p>{currentpage}</p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={nextpage}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
       <div className="flex items-center justify-end space-x-2 p-2">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}

@@ -228,93 +228,27 @@ export default async function Page() {
   return (
     <>
     <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 shadow-md dark:shadow-none">
-            <div className="flex items-center gap-2 px-4">
-              <SidebarTrigger className="-ml-1" />
-              <Separator orientation="vertical" className="mr-2 h-4" />
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Siswa</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </div>
-          </header>
-          <div className="flex items-center p-4 pt-4 gap-4">
-            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
-              <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
-                <Users
-                  height={52}
-                  width={52}
-                  className="text-[hsl(var(--chart-1))]"
-                />
-              </div>
-
-              <div className="text-right px-2">
-                <h3 className="text-2xl font-bold text-[hsl(var(--chart-1))]">
-                  1234
-                </h3>
-                <p className="text-sm text-muted-foreground">Total Siswa</p>
-              </div>
-            </div>
-            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
-              <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
-                <Users
-                  height={52}
-                  width={52}
-                  className="text-[hsl(var(--chart-2))]"
-                />
-              </div>
-
-              <div className="text-right px-5">
-                <h3 className="text-2xl font-bold text-[hsl(var(--chart-2))]">
-                  123
-                </h3>
-                <p className="text-sm text-muted-foreground">Kelas X</p>
-              </div>
-            </div>
-            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
-              <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
-                <Users
-                  height={52}
-                  width={52}
-                  className="text-[hsl(var(--chart-3))]"
-                />
-              </div>
-
-              <div className="text-right px-5">
-                <h3 className="text-2xl font-bold text-[hsl(var(--chart-3))]">
-                  123
-                </h3>
-                <p className="text-sm text-muted-foreground">Kelas XI</p>
-              </div>
-            </div>
-            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-1 aspect-[1/0.6] flex items-center justify-between p-4">
-              <div className="flex items-center justify-center p-2 rounded-lg bg-muted/70">
-                <Users
-                  height={52}
-                  width={52}
-                  className="text-[hsl(var(--chart-4))]"
-                />
-              </div>
-
-              <div className="text-right px-5">
-                <h3 className="text-2xl font-bold text-[hsl(var(--chart-4))]">
-                  123
-                </h3>
-                <p className="text-sm text-muted-foreground">Kelas XII</p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
-            <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-4">
-              <DataTable columns={columns} data={data} />
-            </div>
-          </div>
+      <div className="flex items-center gap-2 px-4">
+        <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+              <BreadcrumbPage></BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+    </header>
+      <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
+        <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-4">
+          <DataTable columns={columns} data={data} />
+        </div>
+      </div>
     </>
   );
 }
