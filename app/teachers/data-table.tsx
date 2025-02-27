@@ -14,6 +14,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+import {
   Table,
   TableBody,
   TableCell,
@@ -28,14 +37,18 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
+type Checked = DropdownMenuCheckboxItemProps["checked"];
+
 export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
+  const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -54,6 +67,9 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="p-6">
+      <div className="">
+        <h6>Teachers Management</h6>
+      </div>
       <div className="flex items-center p-4 justify-between">
         <Input
           placeholder="Filter names..."
@@ -63,12 +79,36 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <Button
-          variant="outline"
-          className="flex items-center justify-between p-4"
-        >
-          <a href="/teachers/create">Add new teacher +</a>
-        </Button>
+        <div className="flex items-center p-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Export</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Format</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem
+                checked={showStatusBar}
+                onCheckedChange={setShowStatusBar}
+              >
+                Excel
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={showActivityBar}
+                onCheckedChange={setShowActivityBar}
+                disabled
+              >
+                PDF
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button
+            variant="outline"
+            className="flex items-center justify-between p-4"
+          >
+            <a href="/teachers/create">Add new teacher +</a>
+          </Button>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>

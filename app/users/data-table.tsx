@@ -21,12 +21,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import React from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
+
+type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 export function DataTable<TData, TValue>({
   columns,
@@ -36,6 +48,9 @@ export function DataTable<TData, TValue>({
     []
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
+  const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
+  const [showPanel, setShowPanel] = React.useState<Checked>(false);
 
   const table = useReactTable({
     data,
@@ -54,6 +69,9 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="p-6">
+      <div className="">
+        <h6>User Management</h6>
+      </div>
       <div className="flex items-center p-4 justify-between">
         <Input
           placeholder="Filter names..."
@@ -63,12 +81,36 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <Button
-          variant="outline"
-          className="flex items-center justify-between p-4"
-        >
-          <a href="/users/create">Add new user +</a>
-        </Button>
+        <div className="flex items-center p-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Export</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Format</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem
+                checked={showStatusBar}
+                onCheckedChange={setShowStatusBar}
+              >
+                Excel
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={showActivityBar}
+                onCheckedChange={setShowActivityBar}
+                disabled
+              >
+                PDF
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button
+            variant="outline"
+            className="flex items-center justify-between p-4"
+          >
+            <a href="/users/create">Add new user +</a>
+          </Button>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -120,7 +162,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 p-2">
+      <div className="flex items-center justify-end space-x-2 p-1">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.

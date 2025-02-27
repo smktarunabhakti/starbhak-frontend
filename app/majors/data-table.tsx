@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  SortingState,
   ColumnDef,
   flexRender,
   getCoreRowModel,
@@ -16,18 +17,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import React from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
+type Checked = DropdownMenuCheckboxItemProps["checked"];
+
 export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
+  const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
   const table = useReactTable({
     data,
     columns,
@@ -37,6 +53,9 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="p-6">
+      <div className="">
+        <h6>Majors Management</h6>
+      </div>
       <div className="flex items-center p-4 justify-between">
         <Input
           placeholder="Filter names..."
@@ -48,12 +67,36 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <Button
-          variant="outline"
-          className="flex items-center justify-between p-4"
-        >
-          <a href="/majors/create">Add new major +</a>
-        </Button>
+        <div className="flex items-center p-1 ">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Export</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Format</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem
+                checked={showStatusBar}
+                onCheckedChange={setShowStatusBar}
+              >
+                Excel
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={showActivityBar}
+                onCheckedChange={setShowActivityBar}
+                disabled
+              >
+                PDF
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button
+            variant="outline"
+            className="flex items-center justify-between p-4"
+          >
+            <a href="/majors/create">Add new major +</a>
+          </Button>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -121,7 +164,7 @@ export function DataTable<TData, TValue>({
           </Button>
           <Button
             variant="outline"
-            size="sm"   
+            size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
