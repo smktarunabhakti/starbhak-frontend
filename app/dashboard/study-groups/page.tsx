@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { Book, Check, Link, School, Users, X } from "lucide-react";
+import { ModeToggle } from "@/components/ui/ModeToggle";
 
 async function getData(): Promise<Payment[]> {
   // Fetch data from your API here.
@@ -56,6 +57,9 @@ export default async function Page() {
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
+            </div>
+            <div className="float-end right-3 absolute">
+              <ModeToggle/>  
             </div>
           </header>
       <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
