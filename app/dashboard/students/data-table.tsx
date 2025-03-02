@@ -63,8 +63,8 @@ export function DataTable<TData, TValue>({
 
   
   return (
-    <div className="">
-      <p className="text-3xl px-5 mt-5">Siswa</p>
+    <div className="p-7">
+      <p className="px-5">Siswa</p>
       <div className="flex items-center p-4 relative  ">
         <Input
           placeholder="Cari Siswa" 
