@@ -15,14 +15,17 @@ import {
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
-  id: string;
-  kejuruan: string;
-  ketua: string;
-  status: "Is active" | "Isnt active";
+export type Majors = {
+  id: number;
+  majors_id: string;
+  majors_head_id: string;
+  name: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Majors>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -47,19 +50,31 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "id",
-    header: "id",
+    header: "Id",
   },
   {
-    accessorKey: "kejuruan",
-    header: "Kejuruan",
+    accessorKey: "majors_id",
+    header: "ID jurusan",
   },
   {
-    accessorKey: "ketua",
-    header: "Ketua jurusan",
+    accessorKey: "majors_head_id",
+    header: "ID kepala jurusan",
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "name",
+    header: "Nama jurusan",
+  },
+  {
+    accessorKey: "isActive",
+    header: "Status aktif",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created at",
+  },
+  {
+    accessorKey: "updatedAt",
+    header: "Updated at",
   },
   {
     id: "actions",
@@ -77,7 +92,9 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(kejuruan.id)}
+              onClick={() =>
+                navigator.clipboard.writeText(kejuruan.majors_id.toString())
+              }
             >
               Copy kejuruan ID
             </DropdownMenuItem>

@@ -1,7 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { AppSidebar } from "@/components/custom/sidebar/app-sidebar";
-
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,64 +17,38 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Payment, columns } from "./columns";
-import { DataTable } from "./data-table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
-import { Link, School, Users } from "lucide-react";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import { DataTable } from "./data-table";
+import { columns, Majors } from "./columns";
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-    {
-      id: "728ed52f",
-      kejuruan: "PPLG",
-      ketua: "Miranda SPD",
-      status: "Is active",
-    },
-  ];
-}
+export default function Page() {
+  const [data, setData] = useState<Majors[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-export default async function Page() {
-  const data = await getData();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:3000/api/v1/master-data/majors"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch majors");
+        }
+        const result = await response.json();
+
+        // ngambil data dalam array schoolYear dalam respons JSON
+        setData(result.data.schoolYear); 
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -103,7 +77,13 @@ export default async function Page() {
           <div className="flex items-center justify-between p-4 pt-4"></div>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
             <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-4">
-              <DataTable columns={columns} data={data} />
+              {loading ? (
+                <p className="text-center p-4">Loading...</p>
+              ) : error ? (
+                <p className="text-center text-red-500 p-4">Error: {error}</p>
+              ) : (
+                <DataTable columns={columns} data={data} />
+              )}
             </div>
           </div>
         </ScrollArea>
