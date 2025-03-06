@@ -28,6 +28,7 @@ import {
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import * as XLSX from "xlsx";
 import React from "react";
 
 interface DataTableProps<TData, TValue> {
@@ -51,6 +52,15 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  function downloadExcel(data: TData[]): void {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+    //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+    XLSX.writeFile(workbook, "DataSheet.xlsx");
+  }
+
   return (
     <div className="p-6">
       <div className="">
@@ -59,9 +69,7 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center p-4 justify-between">
         <Input
           placeholder="Filter names..."
-          value={
-            (table.getColumn("name")?.getFilterValue() as string) ?? ""
-          }
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
@@ -78,6 +86,7 @@ export function DataTable<TData, TValue>({
               <DropdownMenuCheckboxItem
                 checked={showStatusBar}
                 onCheckedChange={setShowStatusBar}
+                onClick={() => downloadExcel(data)}
               >
                 Excel
               </DropdownMenuCheckboxItem>
