@@ -37,4 +37,4 @@ next-env.d.ts
 
 #files for commit
 /app/dashboard/students/
-/app/dashboard/study-groups/
+/app/dashboard/subject/
