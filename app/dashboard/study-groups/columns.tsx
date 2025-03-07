@@ -12,14 +12,36 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Payment = {
   id: string;
-  id_mapel: string;
-  Mapel: string;
-  status: "Is active" | "Isnt active";
+  study_groups_id: string;
+  starting_school_years_id: string;
+  name: string;
+  homeroom_teacher_id: string;
+  year: string;
+  isActive: boolean;
+  counseling_teacher_id: string;
+  major_id: string;
+};
+
+const deleteStudyGroups = async (study_groups_id: string) => {
+  const response = await fetch(`http://127.0.0.1:3000/api/v1/master-data/study-groups/${study_groups_id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    console.error("hapus data gagal");
+  } else {
+    console.log("hapus data berhasil");
+    location.reload();
+  }
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -50,26 +72,43 @@ export const columns: ColumnDef<Payment>[] = [
     header: "id",
   },
   {
-    accessorKey: "uuid",
-    header: "uuid",
+    accessorKey: "study_groups_id",
+    header: "id kelas",
   },
   {
-    accessorKey: "day_of_week",
-    header: "Hari",
+    accessorKey: "starting_school_years_id",
+    header: "id tahun ajaran",
   },
   {
-    accessorKey: "start_at",
-    header: "Jam Mulai",
+    accessorKey: "name",
+    header: "Nama Kelas",
   },
   {
-    accessorKey: "end_at",
-    header: "Jam Selesai",
+    accessorKey: "homeroom_teacher_id",
+    header: "id Wali Kelas",
+  },
+  {
+    accessorKey: "year",
+    header: "Tahun",
+  },
+  {
+    accessorKey: "isActive",
+    header: "Aktif",
+  },
+  {
+    accessorKey: "counseling_teacher_id",
+    header: "id guru bk",
+  },
+  {
+    accessorKey: "major_id",
+    header: "id jurusan",
   },
   
   {
     id: "actions",
     cell: ({ row }) => {
       const kejuruan = row.original;
+      const router =useRouter()
 
       return (
         <DropdownMenu>
@@ -87,8 +126,19 @@ export const columns: ColumnDef<Payment>[] = [
               Copy kejuruan ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem
+            onClick={() => {
+              router.push(`/dashboard/subject/edit?study_groups_id=${kejuruan.study_groups_id}`);
+            }}
+            >Edit</DropdownMenuItem>
+            <DropdownMenuItem
+            onClick={() => {
+              const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+              if (confirmDelete) {
+                deleteStudyGroups(kejuruan.study_groups_id); 
+              }
+            }}
+            >Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import axios from "axios";  
-import { useRouter } from "next/navigation";
+import { useRouter,useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string(),
@@ -37,10 +37,12 @@ export default function MyForm() {
   });
 
   const router = useRouter();
-
+  const searchParams = useSearchParams();
+  const subjects_id = searchParams.get("subjects_id");
+  
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await axios.post('http://127.0.0.1:3000/api/v1/master-data/subjects', {
+      const response = await axios.put(`http://127.0.0.1:3000/api/v1/master-data/subjects/${subjects_id}`, {
         name: values.name,
         isActive: values.isActive
       },{
@@ -62,11 +64,11 @@ export default function MyForm() {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
     }
-  }
-
+}
+  
   return (
     <div className="flex flex-1 flex-col p-4 pt-6 max-w-lg mx-auto">
-      <h1 className="text-xl font-bold py-4">Mapel Baru</h1>
+      <h1 className="text-xl font-bold py-4">Edit Mapel</h1>
       <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 p-8">
         <Form {...form}>
           <form

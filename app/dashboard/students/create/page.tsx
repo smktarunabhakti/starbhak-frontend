@@ -34,13 +34,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
- 
-
-
+import axios from "axios";  
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  name_2028579058: z.string(),
-  name_6271945838: z.string(),
+  nisn: z.string(),
+  nipd: z.string(),
+  nik: z.string(),
+  rfid: z.string(),
+  gender: z.string(),
+  email: z.string(),
+  name: z.string(),
+  dob: z.date(),
+  pob: z.string(),
+  starting_school_years_id: z.string(),
 });
 
 export default function MyForm() {
@@ -48,14 +55,36 @@ export default function MyForm() {
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const router = useRouter();
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      const response = await axios.post('http://127.0.0.1:3000/api/v1/master-data/students', {
+        nisn: values.nisn,
+        nipd: values.nipd,
+        nik: values.nik,
+        rfid: values.rfid,
+        gender: values.gender,
+        email: values.email,
+        name: values.name,
+        dob: values.dob,
+        pob: values.pob,
+        starting_school_years_id: values.starting_school_years_id,
+      },{
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       console.log(values);
+
       toast(
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
+          <code className="text-white">{JSON.stringify(response.data, null, 2)}</code>
         </pre>
       );
+
+      router.push('/dashboard/students');
+
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
@@ -77,7 +106,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="name_2028579058"
+                    name="nisn"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>NISN Siswa</FormLabel>
@@ -94,7 +123,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="name_6271945838"
+                    name="nipd"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>NIPD Siswa</FormLabel>
@@ -116,7 +145,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="name_2028579058"
+                    name="nik"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>NIK Siswa</FormLabel>
@@ -133,7 +162,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="name_6271945838"
+                    name="rfid"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>RFID</FormLabel>
@@ -155,12 +184,12 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="name_2028579058"
+                    name="gender"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Jenis Kelamin Siswa</FormLabel>
                         <FormControl>
-                        <Select>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <SelectTrigger>
                             <SelectValue placeholder="Jenis Kelamin" />
                           </SelectTrigger>
@@ -180,7 +209,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="name_6271945838"
+                    name="email"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email</FormLabel>
@@ -202,7 +231,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="name_2028579058"
+                    name="name"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Nama Siswa</FormLabel>
@@ -219,7 +248,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="name_2028579058"
+                    name="dob"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tanggal Lahir Siswa</FormLabel>
@@ -239,7 +268,10 @@ export default function MyForm() {
                             <Calendar
                               mode="single"
                               selected={date}
-                              onSelect={setDate}
+                              onDayClick={(selectedDate) => {
+                                setDate(selectedDate);
+                                field.onChange(selectedDate); 
+                              }}
                               initialFocus
                             />
                           </PopoverContent>
@@ -256,7 +288,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="name_2028579058"
+                    name="pob"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tempat Lahir</FormLabel>
@@ -273,7 +305,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="name_2028579058"
+                    name="starting_school_years_id"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tahun Ajaran</FormLabel>

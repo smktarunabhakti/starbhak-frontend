@@ -12,11 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Payment = {
   id: string;
+  student_id: string;
   nisn: string;
   nipd: string;
   nik: string;
@@ -24,9 +26,25 @@ export type Payment = {
   gender: string;
   email: string;
   name: string;
-  dob: string;
-  pob: string;
-  starting_school_years: string;
+  DoB: string;
+  PoB: string;
+  starting_school_years_id: string;
+};
+
+const deleteStudent = async (rfid: string) => {
+  const response = await fetch(`http://127.0.0.1:3000/api/v1/master-data/students/${rfid}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    console.error("hapus data gagal");
+  } else {
+    console.log("hapus data berhasil");
+    location.reload();
+  }
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -57,6 +75,10 @@ export const columns: ColumnDef<Payment>[] = [
     header: "id",
   },
   {
+    accessorKey: "student_id",
+    header: "id siswa",
+  },
+  {
     accessorKey: "nisn",
     header: "NISN",
   },
@@ -85,21 +107,22 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Nama",
   },
   {
-    accessorKey: "dob",
+    accessorKey: "DoB",
     header: "Tanggal Lahir",
   },
   {
-    accessorKey: "pob",
+    accessorKey: "PoB",
     header: "Tempat Lahir",
   },
   {
-    accessorKey: "starting_school_years",
+    accessorKey: "starting_school_years_id",
     header: "Tahun Ajaran",
   },
   {
     id: "actions",
     cell: ({ row }) => {
       const kejuruan = row.original;
+      const router = useRouter();
 
       return (
         <DropdownMenu>
@@ -117,8 +140,19 @@ export const columns: ColumnDef<Payment>[] = [
               Copy kejuruan ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem
+            onClick={() => {
+              router.push(`/dashboard/students/edit?student_id=${kejuruan.student_id}`);
+            }}
+            >Edit</DropdownMenuItem>
+            <DropdownMenuItem
+            onClick={() => {
+              const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+              if (confirmDelete) {
+                deleteStudent(kejuruan.rfid); 
+              }
+            }}
+            >Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

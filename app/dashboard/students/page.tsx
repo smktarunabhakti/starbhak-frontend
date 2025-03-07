@@ -25,204 +25,42 @@ import { Button } from "@/components/ui/button";
 
 import { Link, School, Users } from "lucide-react";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import axios from "axios";
 
-async function getData(): Promise<Payment[]> {
-  return [
-    { 
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Laki-laki",
-      email: "123@321.com",
-      name: "Udin",
-      dob: "11/12/2008",
-      pob: "Bandung",
-      starting_school_years:"2024/2025",
-    },
-    {
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Perempuan",
-      email: "123@321.com",
-      name: "Alice",
-      dob: "11/12/2008",
-      pob: "Jakarta",
-      starting_school_years:"2023/2024",
-    },
-    {
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Laki-laki",
-      email: "123@321.com",
-      name: "Joko",
-      dob: "11/12/2008",
-      pob: "Sukabumi",
-      starting_school_years:"2022/2023",
-    },
-    { 
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Laki-laki",
-      email: "123@321.com",
-      name: "Udin",
-      dob: "11/12/2008",
-      pob: "Bandung",
-      starting_school_years:"2024/2025",
-    },
-    {
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Perempuan",
-      email: "123@321.com",
-      name: "Alice",
-      dob: "11/12/2008",
-      pob: "Jakarta",
-      starting_school_years:"2023/2024",
-    },
-    {
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Laki-laki",
-      email: "123@321.com",
-      name: "Joko",
-      dob: "11/12/2008",
-      pob: "Sukabumi",
-      starting_school_years:"2022/2023",
-    },{ 
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Laki-laki",
-      email: "123@321.com",
-      name: "Udin",
-      dob: "11/12/2008",
-      pob: "Bandung",
-      starting_school_years:"2024/2025",
-    },
-    {
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Perempuan",
-      email: "123@321.com",
-      name: "Alice",
-      dob: "11/12/2008",
-      pob: "Jakarta",
-      starting_school_years:"2023/2024",
-    },
-    {
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Laki-laki",
-      email: "123@321.com",
-      name: "Joko",
-      dob: "11/12/2008",
-      pob: "Sukabumi",
-      starting_school_years:"2022/2023",
-    },{ 
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Laki-laki",
-      email: "123@321.com",
-      name: "Udin",
-      dob: "11/12/2008",
-      pob: "Bandung",
-      starting_school_years:"2024/2025",
-    },
-    {
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Perempuan",
-      email: "123@321.com",
-      name: "Alice",
-      dob: "11/12/2008",
-      pob: "Jakarta",
-      starting_school_years:"2023/2024",
-    },
-    {
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Laki-laki",
-      email: "123@321.com",
-      name: "Joko",
-      dob: "11/12/2008",
-      pob: "Sukabumi",
-      starting_school_years:"2022/2023",
-    },
-    { 
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Laki-laki",
-      email: "123@321.com",
-      name: "Udin",
-      dob: "11/12/2008",
-      pob: "Bandung",
-      starting_school_years:"2024/2025",
-    },
-    {
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Perempuan",
-      email: "123@321.com",
-      name: "Alice",
-      dob: "11/12/2008",
-      pob: "Jakarta",
-      starting_school_years:"2023/2024",
-    },
-    {
-      id: "728ed52f",
-      nisn: "12345678",
-      nipd: "87654321",
-      nik: "0012345678",
-      rfid: "445557897",
-      gender: "Laki-laki",
-      email: "123@321.com",
-      name: "Joko",
-      dob: "11/12/2008",
-      pob: "Sukabumi",
-      starting_school_years:"2022/2023",
-    },
-  ];
+interface ApiResponse {
+  id: string;
+  student_id: string;
+  nisn: string;
+  nipd: string;
+  nik: string;
+  rfid: string;
+  gender: string;
+  email: string;
+  name: string;
+  DoB: string;
+  PoB: string;
+  starting_school_years_id: string;
 }
+
+async function getData(): Promise<ApiResponse[]> {
+  const res = await axios.get('http://127.0.0.1:3000/api/v1/master-data/students');
+  
+  return res.data.data.students.map((student: any) => ({
+    id: student.id.toString(), 
+    student_id: student.student_id,
+    nisn: student.nisn,
+    nipd: student.nipd,
+    nik: student.nik,
+    rfid: student.rfid,
+    gender: student.gender,
+    email: student.email,
+    name: student.name,
+    DoB: student.DoB,
+    PoB: student.PoB,
+    starting_school_years_id: student.starting_school_years_id,
+  }));
+}
+
 
 export default async function Page() {
   const data = await getData();

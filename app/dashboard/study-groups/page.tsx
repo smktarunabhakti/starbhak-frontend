@@ -24,18 +24,34 @@ import { Button } from "@/components/ui/button";
 
 import { Book, Check, Link, School, Users, X } from "lucide-react";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import axios from "axios";
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "1",
-      uuid: "728ed52f",
-      day_of_week: "2",
-      start_at: "11:00",
-      end_at: "12:00"
-    },
-  ];
+interface ApiResponse {
+  id: string;
+  study_groups_id: string;
+  starting_school_years_id: string;
+  name: string;
+  homeroom_teacher_id: string;
+  year: string;
+  isActive: boolean;
+  counseling_teacher_id: string;
+  major_id: string;
+}
+
+async function getData(): Promise<ApiResponse[]> {
+  const res = await axios.get('http://127.0.0.1:3000/api/v1/master-data/study-groups');
+
+  return res.data.data.studyGroups.map((studyGroup: any) => ({
+    id: studyGroup.id.toString(), 
+    study_groups_id: studyGroup.studyGroups_id,
+    starting_school_years_id: studyGroup.starting_school_years_id,
+    name: studyGroup.name,
+    homeroom_teacher_id: studyGroup.homeroom_teacher_id,
+    year: studyGroup.year,
+    isActive: studyGroup.isActive,
+    counseling_teacher_id: studyGroup.counseling_teacher_id,
+    major_id: studyGroup.major_id,
+  }));
 }
 
 export default async function Page() {

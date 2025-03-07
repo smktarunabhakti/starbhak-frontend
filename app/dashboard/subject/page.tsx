@@ -24,102 +24,27 @@ import { Button } from "@/components/ui/button";
 
 import { Book, Check, Link, School, Users, X } from "lucide-react";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import axios from 'axios';
+import { useRouter } from "next/navigation";
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "1",
-      id_mapel: "728ed52f",
-      Mapel: "Bahasa",
-      status: "Is active",
-    },
-    {
-      id: "2",
-      id_mapel: "728ed52f",
-      Mapel: "MTK",
-      status: "Is active",
-    },
-    {
-      id: "3",
-      id_mapel: "728ed52f",
-      Mapel: "IPAS",
-      status: "Is active",
-    },
-    {
-      id: "1",
-      id_mapel: "728ed52f",
-      Mapel: "Bahasa",
-      status: "Is active",
-    },
-    {
-      id: "2",
-      id_mapel: "728ed52f",
-      Mapel: "MTK",
-      status: "Is active",
-    },
-    {
-      id: "3",
-      id_mapel: "728ed52f",
-      Mapel: "IPAS",
-      status: "Is active",
-    },
-    {
-      id: "4",
-      id_mapel: "728ed52f",
-      Mapel: "Bahasa",
-      status: "Is active",
-    },
-    {
-      id: "5",
-      id_mapel: "728ed52f",
-      Mapel: "MTK",
-      status: "Is active",
-    },
-    {
-      id: "6",
-      id_mapel: "728ed52f",
-      Mapel: "IPAS",
-      status: "Is active",
-    },
-    {
-      id: "7",
-      id_mapel: "728ed52f",
-      Mapel: "Bahasa",
-      status: "Is active",
-    },
-    {
-      id: "8",
-      id_mapel: "728ed52f",
-      Mapel: "MTK",
-      status: "Is active",
-    },
-    {
-      id: "9",
-      id_mapel: "728ed52f",
-      Mapel: "IPAS",
-      status: "Is active",
-    },
-    {
-      id: "10",
-      id_mapel: "728ed52f",
-      Mapel: "Bahasa",
-      status: "Is active",
-    },
-    {
-      id: "11",
-      id_mapel: "728ed52f",
-      Mapel: "MTK",
-      status: "Is active",
-    },
-    {
-      id: "12",
-      id_mapel: "728ed52f",
-      Mapel: "IPAS",
-      status: "Is active",
-    },
-  ];
+interface ApiResponse {
+  id: string;
+  subjects_id: string;
+  name: string;
+  isActive: boolean;
 }
+
+async function getData(): Promise<ApiResponse[]> {
+  const res = await axios.get('http://127.0.0.1:3000/api/v1/master-data/subjects');
+
+  return res.data.data.subjects.map((subject: any) => ({
+    id: subject.id.toString(), 
+    subjects_id: subject.subjects_id,
+    name: subject.name,
+    isActive: subject.isActive,
+  }));
+}
+
 
 export default async function Page() {
   const data = await getData();
