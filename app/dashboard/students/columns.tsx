@@ -12,6 +12,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 import { useRouter } from "next/navigation";
 
 // This type is used to define the shape of our data.
@@ -145,14 +157,26 @@ export const columns: ColumnDef<Payment>[] = [
               router.push(`/dashboard/students/edit?student_id=${kejuruan.student_id}`);
             }}
             >Edit</DropdownMenuItem>
-            <DropdownMenuItem
-            onClick={() => {
-              const confirmDelete = window.confirm("Are you sure you want to delete this item?");
-              if (confirmDelete) {
-                deleteStudent(kejuruan.rfid); 
-              }
-            }}
-            >Delete</DropdownMenuItem>
+            <AlertDialog>
+              <AlertDialogTrigger className="text-sm p-2">Delete</AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete your account
+                    and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                  onClick={() => {
+                    deleteStudent(kejuruan.student_id); 
+                  }}
+                  >Continue</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </DropdownMenuContent>
         </DropdownMenu>
       );
