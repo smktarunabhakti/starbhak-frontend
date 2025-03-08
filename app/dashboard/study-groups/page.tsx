@@ -43,7 +43,7 @@ async function getData(): Promise<ApiResponse[]> {
 
   return res.data.data.studyGroups.map((studyGroup: any) => ({
     id: studyGroup.id.toString(), 
-    study_groups_id: studyGroup.studyGroups_id,
+    study_groups_id: studyGroup.study_groups_id,
     starting_school_years_id: studyGroup.starting_school_years_id,
     name: studyGroup.name,
     homeroom_teacher_id: studyGroup.homeroom_teacher_id,

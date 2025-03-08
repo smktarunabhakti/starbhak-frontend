@@ -128,7 +128,7 @@ export const columns: ColumnDef<Payment>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem
             onClick={() => {
-              router.push(`/dashboard/subject/edit?study_groups_id=${kejuruan.study_groups_id}`);
+              router.push(`/dashboard/study-groups/edit?study_groups_id=${kejuruan.study_groups_id}`);
             }}
             >Edit</DropdownMenuItem>
             <DropdownMenuItem

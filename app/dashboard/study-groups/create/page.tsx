@@ -62,11 +62,11 @@ export default function MyForm() {
 
       toast(
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
+          <code className="text-white">{JSON.stringify(response.data, null, 2)}</code>
         </pre>
       );
 
-      router.push('/dashboard/study-groups')
+      
 
     } catch (error) {
       console.error("Form submission error", error);
@@ -197,8 +197,6 @@ export default function MyForm() {
                 </FormItem>
               )}
             />
-
-
             <Button type="submit">Submit</Button>
           </form>
         </Form>
