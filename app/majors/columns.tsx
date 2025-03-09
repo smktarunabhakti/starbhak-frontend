@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { Link, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +25,7 @@ export type Majors = {
   updatedAt: string;
 };
 
-export const columns: ColumnDef<Majors>[] = [
+export const columns = (refreshData: () => void): ColumnDef<Majors>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -81,6 +81,23 @@ export const columns: ColumnDef<Majors>[] = [
     cell: ({ row }) => {
       const kejuruan = row.original;
 
+      const deleteMajors = async (id: string) => {
+        try {
+          const response = await fetch(
+            `http://127.0.0.1:3000/api/v1/master-data/majors/${id}`,
+            { method: "DELETE" }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to delete major");
+          }
+
+          refreshData();
+        } catch (error) {
+          console.error("Error deleting major:", error);
+        }
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -99,8 +116,16 @@ export const columns: ColumnDef<Majors>[] = [
               Copy kejuruan ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>
+              <a href={`/majors/edit/${kejuruan.majors_id.toString()}`}>
+                Edit
+              </a>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => deleteMajors(kejuruan.majors_id.toString())}
+            >
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

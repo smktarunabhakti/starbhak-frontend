@@ -93,13 +93,6 @@ export function DataTable<TData, TValue>({
               >
                 Excel
               </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                checked={showActivityBar}
-                onCheckedChange={setShowActivityBar}
-                disabled
-              >
-                PDF
-              </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Button

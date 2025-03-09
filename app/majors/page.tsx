@@ -20,33 +20,30 @@ import {
 import { ModeToggle } from "@/components/ui/ModeToggle";
 import { DataTable } from "./data-table";
 import { columns, Majors } from "./columns";
+import fetchData from "./create/get-data";
+import { toast } from "sonner";
+import path from "path";
+import { Component } from "lucide-react";
+import MyForm from "./edit/[id]/page";
 
 export default function Page() {
   const [data, setData] = useState<Majors[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const getMajors = async () => {
+    try {
+      const fetchedData = await fetchData();
+      setData(fetchedData);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "http://127.0.0.1:3000/api/v1/master-data/majors"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch majors");
-        }
-        const result = await response.json();
-
-        // ngambil data dalam array schoolYear dalam respons JSON
-        setData(result.data.schoolYear); 
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    getMajors();
   }, []);
 
   return (
@@ -82,7 +79,7 @@ export default function Page() {
               ) : error ? (
                 <p className="text-center text-red-500 p-4">Error: {error}</p>
               ) : (
-                <DataTable columns={columns} data={data} />
+                <DataTable columns={columns(getMajors)} data={data} />
               )}
             </div>
           </div>

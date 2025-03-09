@@ -1,12 +1,13 @@
 import { toast } from "sonner";
 
-export async function addMajors(values: any) {
+export async function editMajors(values: any, id: string) {
   console.log("Submitting values:", values);
-  const API_URL = "http://127.0.0.1:3000/api/v1/master-data/majors";
+  const API_URL = `http://127.0.0.1:3000/api/v1/master-data/majors/${id}`;
+  console.log(API_URL);
 
   await toast.promise(
     fetch(API_URL, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -20,7 +21,7 @@ export async function addMajors(values: any) {
         return response.json();
       })
       .then((data) => {
-        console.log("Form submitted successfully:", data);
+        console.log("Major updated successfully:", data);
       })
       .catch((error) => {
         console.error("Submission error:", error);
@@ -32,6 +33,4 @@ export async function addMajors(values: any) {
       error: "Failed to submit the form. Please try again.",
     }
   );
-
 }
-

@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <div className="flex items-center p-1 ">
+        <div className="flex gap-1 items-center p-1 ">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">Export</Button>
@@ -84,18 +84,10 @@ export function DataTable<TData, TValue>({
               <DropdownMenuLabel>Format</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem
-                checked={showStatusBar}
                 onCheckedChange={setShowStatusBar}
                 onClick={() => downloadExcel(data)}
               >
                 Excel
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                checked={showActivityBar}
-                onCheckedChange={setShowActivityBar}
-                disabled
-              >
-                PDF
               </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
