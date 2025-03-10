@@ -128,7 +128,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "starting_school_years_id",
-    header: "Tahun Ajaran",
+    header: "ID Tahun Ajaran",
   },
   {
     id: "actions",

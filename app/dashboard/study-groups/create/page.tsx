@@ -66,7 +66,7 @@ export default function MyForm() {
         </pre>
       );
 
-      
+      router.push('/dashboard/study-groups');
 
     } catch (error) {
       console.error("Form submission error", error);

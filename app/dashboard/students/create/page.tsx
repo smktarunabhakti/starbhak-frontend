@@ -45,8 +45,8 @@ const formSchema = z.object({
   gender: z.string(),
   email: z.string(),
   name: z.string(),
-  dob: z.date(),
-  pob: z.string(),
+  DoB: z.date(),
+  PoB: z.string(),
   starting_school_years_id: z.string(),
 });
 
@@ -67,8 +67,8 @@ export default function MyForm() {
         gender: values.gender,
         email: values.email,
         name: values.name,
-        dob: values.dob,
-        pob: values.pob,
+        DoB: values.DoB,
+        PoB: values.PoB,
         starting_school_years_id: values.starting_school_years_id,
       },{
         headers: {
@@ -194,8 +194,8 @@ export default function MyForm() {
                             <SelectValue placeholder="Jenis Kelamin" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="laki=laki">Laki-laki</SelectItem>
-                            <SelectItem value="perempuan">Perempuan</SelectItem>
+                            <SelectItem value="Male">Laki-laki</SelectItem>
+                            <SelectItem value="Female">Perempuan</SelectItem>
                           </SelectContent>
                         </Select>
                         </FormControl>
@@ -248,7 +248,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="dob"
+                    name="DoB"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tanggal Lahir Siswa</FormLabel>
@@ -288,7 +288,7 @@ export default function MyForm() {
                 <div className="col-span-6">
                   <FormField
                     control={form.control}
-                    name="pob"
+                    name="PoB"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tempat Lahir</FormLabel>
@@ -308,11 +308,11 @@ export default function MyForm() {
                     name="starting_school_years_id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tahun Ajaran</FormLabel>
+                        <FormLabel>ID Tahun Ajaran</FormLabel>
                         <FormControl>
-                          <Input placeholder="2024/2025" type="" {...field} />
+                          <Input placeholder="ID Tahun Ajaran" type="" {...field} />
                         </FormControl>
-                        <FormDescription>Tahun ajaran.</FormDescription>
+                        <FormDescription>ID Tahun Ajaran Siswa.</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
