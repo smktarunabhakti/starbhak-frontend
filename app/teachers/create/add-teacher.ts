@@ -1,27 +1,30 @@
 import { toast } from "sonner";
 
 export async function addTeachers(values: any) {
-  const API_URL =
-    "https://coral-suitable-physically.ngrok-free.app/api/v1/master-data/teachers/";
+  console.log("Submitting values:", values);
+  const API_URL = "http://127.0.0.1:3000/api/v1/master-data/teachers";
 
   await toast.promise(
     fetch(API_URL, {
       method: "POST",
-      mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "69420",
       },
       body: JSON.stringify(values),
     })
-      .then((response) => {
+      .then(async (response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorText = await response.text();
+          throw new Error(`Error: ${response.status} - ${errorText}`);
         }
         return response.json();
       })
       .then((data) => {
         console.log("Form submitted successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Submission error:", error);
+        throw error;
       }),
     {
       loading: "Submitting form...",
@@ -29,4 +32,6 @@ export async function addTeachers(values: any) {
       error: "Failed to submit the form. Please try again.",
     }
   );
+
 }
+
