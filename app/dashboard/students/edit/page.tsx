@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -92,7 +92,36 @@ export default function MyForm() {
       toast.error("Failed to submit the form. Please try again.");
     }
   }
-  const [date, setDate] = React.useState<Date>()
+
+  useEffect(() => {
+    if (student_id) {
+      fetchData();
+    }
+  }, [student_id]);
+  
+  async function fetchData() {
+    try {
+      const res = await axios.get(`http://127.0.0.1:3000/api/v1/master-data/students/${student_id}`);
+      const data = res.data.data.student[0];
+
+      const parsedDate = new Date(data.DoB);
+  
+      form.reset({
+        nisn: data.nisn,
+        nipd: data.nipd,
+        nik: data.nik,
+        rfid: data.rfid,
+        email: data.email,
+        name: data.name,
+        DoB: parsedDate,
+        PoB: data.PoB,
+        starting_school_years_id: data.starting_school_years_id,
+      });
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+      toast.error("Failed to fetch data");
+    }
+  }
 
   return (
     <div className="grid grid-cols-4 place-items-center min-h-screen">
@@ -259,21 +288,16 @@ export default function MyForm() {
                           <PopoverTrigger asChild>
                             <Button
                               variant={"outline"}
-                              className={cn( " block w-full text-left bg-transparent",
-                                !date && "text-muted-foreground"
-                              )}
+                              className={cn("block w-full text-left bg-transparent", !field.value && "text-muted-foreground")}
                             >
-                              {date ? format(date, "PPP") : <span>Pick a date</span>}
+                              {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0">
                             <Calendar
                               mode="single"
-                              selected={date}
-                              onDayClick={(selectedDate) => {
-                                setDate(selectedDate);
-                                field.onChange(selectedDate); 
-                              }}
+                              selected={field.value}
+                              onDayClick={(selectedDate) => field.onChange(selectedDate)}
                               initialFocus
                             />
                           </PopoverContent>

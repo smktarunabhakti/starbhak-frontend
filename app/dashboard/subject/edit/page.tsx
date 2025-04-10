@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -64,7 +64,29 @@ export default function MyForm() {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
     }
-}
+
+  }
+
+  useEffect(() => {
+    if (subjects_id) {
+      fetchData();
+    }
+  }, [subjects_id]);
+
+  async function fetchData() {
+    try {
+      const res = await axios.get(`http://127.0.0.1:3000/api/v1/master-data/subjects/${subjects_id}`);
+      const data = res.data.data.subject;
+
+      form.reset({
+        name: data.name,
+        isActive: data.isActive.toString(),
+      });
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+      toast.error("Failed to fetch data");
+    }
+  }
   
   return (
     <div className="flex flex-1 flex-col p-4 pt-6 max-w-lg mx-auto">

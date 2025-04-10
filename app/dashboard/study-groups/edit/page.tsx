@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,7 +52,7 @@ export default function MyForm() {
         name: values.name,
         homeroom_teacher_id: values.homeroom_teacher_id,
         year: values.year,
-        is_active: values.is_active,
+        isActive: values.is_active,
         counseling_teacher_id: values.counseling_teacher_id,
         major_id: values.major_id,
       },{
@@ -73,6 +73,32 @@ export default function MyForm() {
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
+    }
+  }
+
+  useEffect(() => {
+    if (study_groups_id) {
+      fetchData();
+    }
+  }, [study_groups_id]);
+  
+  async function fetchData() {
+    try {
+      const res = await axios.get(`http://127.0.0.1:3000/api/v1/master-data/study-groups/${study_groups_id}`);
+      const data = res.data.data.studyGroup;
+  
+      form.reset({
+        starting_school_years_id: data.starting_school_years_id,
+        name: data.name,
+        homeroom_teacher_id: data.homeroom_teacher_id,
+        year: data.year,
+        is_active: data.isActive.toString(),
+        counseling_teacher_id: data.counseling_teacher_id,
+        major_id: data.major_id,
+      });
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+      toast.error("Failed to fetch data");
     }
   }
 
