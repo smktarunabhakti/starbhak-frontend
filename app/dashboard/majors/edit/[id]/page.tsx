@@ -16,6 +16,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { editMajors } from "../edit-majors";
@@ -26,7 +33,7 @@ import React from "react";
 const formSchema = z.object({
   majors_head_id: z.string().min(1),
   name: z.string().min(1),
-  isActive: z.boolean(),
+  isActive: z.string(),
 });
 
 export default function MyForm() {
@@ -86,26 +93,27 @@ export default function MyForm() {
               />
 
               <FormField
-                control={form.control}
-                name="isActive"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                      <FormLabel>Is Active</FormLabel>
-                      <FormDescription>
-                        Status Keaktifan Kejurusan
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        aria-readonly
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+          control={form.control}
+          name="isActive"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Is Active</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="True" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="true">True</SelectItem>
+                  <SelectItem value="false">False</SelectItem>
+                </SelectContent>
+              </Select>
+                <FormDescription>status keaftifan kejuruan</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
               <Button type="submit" onClick={() => router.back()}>
                 Submit
               </Button>

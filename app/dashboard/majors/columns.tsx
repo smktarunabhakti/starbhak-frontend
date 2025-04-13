@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import getData from "./get-majors";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -25,7 +26,7 @@ export type Majors = {
   updatedAt: string;
 };
 
-export const columns = (refreshData: () => void): ColumnDef<Majors>[] => [
+export const columns= (onDelete: (id: string) => void): ColumnDef<Majors>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -81,23 +82,7 @@ export const columns = (refreshData: () => void): ColumnDef<Majors>[] => [
     cell: ({ row }) => {
       const kejuruan = row.original;
 
-      const deleteMajors = async (id: string) => {
-        try {
-          const response = await fetch(
-            `http://127.0.0.1:3000/api/v1/master-data/majors/${id}`,
-            { method: "DELETE" }
-          );
-
-          if (!response.ok) {
-            throw new Error("Failed to delete major");
-          }
-
-          refreshData();
-        } catch (error) {
-          console.error("Error deleting major:", error);
-        }
-      };
-
+     
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -117,12 +102,12 @@ export const columns = (refreshData: () => void): ColumnDef<Majors>[] => [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <a href={`/majors/edit/${kejuruan.majors_id.toString()}`}>
+              <a href={`majors/edit/${kejuruan.majors_id.toString()}`}>
                 Edit
               </a>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => deleteMajors(kejuruan.majors_id.toString())}
+              onClick={() => onDelete(kejuruan.majors_id.toString())}
             >
               Delete
             </DropdownMenuItem>

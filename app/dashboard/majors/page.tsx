@@ -1,7 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { AppSidebar } from "@/components/custom/sidebar/app-sidebar";
-import { useState, useEffect } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,55 +17,62 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Payment, columns } from "./columns";
-import { DataTable } from "./data-table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
-import { Link, School, Users } from "lucide-react";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import { DataTable } from "./data-table";
+import { columns, Majors } from "./columns";
+import { toast } from "sonner";
+import path from "path";
+import { Component } from "lucide-react";
+import axios from "axios";
+import { ColumnDef } from "@tanstack/react-table"
+import MyForm from "./edit/[id]/page";
+import getData from "./get-majors";
 
-// async function getData(): Promise<Payment[]> {
-//   // Fetch from localStorage or use fallback data
-//   return JSON.parse(localStorage.getItem("teacherData") || "[]");
-// }
-async function getData(): Promise<Payment[]> {
-  return [
-    {
-      id: "728ed52f",
-      DoB: "21/4/2000",
-      PoB: "Jakarta",
-      gender: "Wanita",
-      email: "miranda@gmail.com",
-      name: "Miranda S.pd",
-      user_id: "82123hab",
-      isActive: "Is active",
-    },
-    {
-      id: "728ed52f",
-      DoB: "21/4/2000",
-      PoB: "Jakarta",
-      gender: "Wanita",
-      email: "miranda@gmail.com",
-      name: "Miranda S.pd",
-      user_id: "82123hab",
-      isActive: "Is active",
-    },
-    {
-      id: "728ed52f",
-      DoB: "21/4/2000",
-      PoB: "Jakarta",
-      gender: "Wanita",
-      email: "miranda@gmail.com",
-      name: "Miranda S.pd",
-      user_id: "82123hab",
-      isActive: "Is active",
-    },
-  ];
+interface apiResponse {
+    id: string,
+    majors_id: string,
+    majors_head_id: string,
+    name: string,
+    isActive: string,
+    createdAt: string,
+    updatedAt: string,
 }
 
-export default async function Page() {
-  const data = await getData();
+export default function Page() {
+  const [data, setData] = useState<apiResponse[]>([]);
+
+  const fetchData = async ()=> {
+     try {
+      const result = await getData();
+      
+      setData(result);
+     } catch (err) {
+      console.error("error: failed to fetch ", err);
+      
+     } 
+  };
+ 
+  
+  useEffect(() => {
+    fetchData();   
+  }, []);
+
+  const deleteMajors = async (id: string) => {
+        try {
+          const response = await fetch(
+            `http://127.0.0.1:3000/api/v1/master-data/majors/${id}`,
+            { method: "DELETE" }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to delete major");
+          }
+          fetchData();
+        } catch (error) {
+          console.error("Error deleting major:", error);
+        }
+      };
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -82,7 +89,7 @@ export default async function Page() {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Guru</BreadcrumbPage>
+                    <BreadcrumbPage>Kejuruan</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
@@ -91,9 +98,10 @@ export default async function Page() {
               <ModeToggle />
             </div>
           </header>
+          <div className="flex items-center justify-between p-4 pt-4"></div>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
             <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-4">
-              <DataTable columns={columns} data={data} />
+              <DataTable columns={columns(deleteMajors)} data={data} />
             </div>
           </div>
         </ScrollArea>

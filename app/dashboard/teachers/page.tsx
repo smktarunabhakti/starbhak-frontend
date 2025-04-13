@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { AppSidebar } from "@/components/custom/sidebar/app-sidebar";
+import { useState, useEffect } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,35 +17,68 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { ModeToggle } from "@/components/ui/ModeToggle";
+import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
-import { columns, Majors } from "./columns";
-import fetchData from "./create/get-data";
-import { toast } from "sonner";
-import path from "path";
-import { Component } from "lucide-react";
-import MyForm from "./edit/[id]/page";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { Link, School, Users } from "lucide-react";
+import { ModeToggle } from "@/components/ui/ModeToggle";
+
+async function getData(): Promise<Payment[]> {
+/*  return [
+    {
+      id: "728ed52f",
+      DoB: "21/4/2000",
+      PoB: "Jakarta",
+      gender: "Wanita",
+      email: "miranda@gmail.com",
+      name: "Miranda S.pd",
+      user_id: "82123hab",
+      isActive: "Is active",
+    },
+    {
+      id: "728ed52f",
+      DoB: "21/4/2000",
+      PoB: "Jakarta",
+      gender: "Wanita",
+      email: "miranda@gmail.com",
+      name: "Miranda S.pd",
+      user_id: "82123hab",
+      isActive: "Is active",
+    },
+    {
+      id: "728ed52f",
+      DoB: "21/4/2000",
+      PoB: "Jakarta",
+      gender: "Wanita",
+      email: "miranda@gmail.com",
+      name: "Miranda S.pd",
+      user_id: "82123hab",
+      isActive: "Is active",
+    },
+  ];
+*/
+const res = await axios.get('http://127.0.0.1:3000/api/v1/master-data/teachers');
+
+return res.data.data.Teachers.map((Teacher: any) => ({
+  id: Teacher.id.toString(), 
+  teacher_id: Teacher.teacher_id,
+  name: Teacher.name,
+  DoB: Teacher.DoB.toString(),
+  PoB: Teacher.PoB.toString(),
+  gender: Teacher.gender,
+  email: Teacher.email,
+  userId: Teacher.userId,
+  isActive: Teacher.isActive.toString(),
+  createdAt: Teacher.createdAt.toString(),
+  updatedAt: Teacher.updatedAt.toString()
+
+  }));
+}
 
 export default function Page() {
-  const [data, setData] = useState<Majors[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const getMajors = async () => {
-    try {
-      const fetchedData = await fetchData();
-      setData(fetchedData);
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getMajors();
-  }, []);
-
+  const data = getData();
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -62,7 +95,7 @@ export default function Page() {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Kejuruan</BreadcrumbPage>
+                    <BreadcrumbPage>Guru</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
@@ -71,16 +104,9 @@ export default function Page() {
               <ModeToggle />
             </div>
           </header>
-          <div className="flex items-center justify-between p-4 pt-4"></div>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
             <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-4">
-              {loading ? (
-                <p className="text-center p-4">Loading...</p>
-              ) : error ? (
-                <p className="text-center text-red-500 p-4">Error: {error}</p>
-              ) : (
-                <DataTable columns={columns(getMajors)} data={data} />
-              )}
+              <DataTable columns={columns} data={data} />
             </div>
           </div>
         </ScrollArea>

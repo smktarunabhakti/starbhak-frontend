@@ -106,7 +106,7 @@ export function DataTable<TData, TValue>({
             variant="outline"
             className="flex items-center justify-between p-4"
           >
-            <a href="/majors/create">Add new major +</a>
+            <a href="majors/create">Add new major +</a>
           </Button>
         </div>
       </div>

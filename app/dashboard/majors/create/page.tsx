@@ -15,10 +15,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-
 import { addMajors } from "./add-majors";
 
 const formSchema = z.object({
+  majors_head_id: z.string(),
   name: z.string(),
 });
 
@@ -27,6 +27,7 @@ export default function MyForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      majors_head_id: "",
       name: "",
     },
   });
@@ -46,6 +47,20 @@ export default function MyForm() {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-8 max-w-3xl mx-auto py-5"
             >
+              <FormField
+                control={form.control}
+                name="majors_head_id"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Id Kepala Kejuruan</FormLabel>
+                    <FormControl>
+                      <Input placeholder="9a5cf1fd-86d8-4b63-8e7d-defa768ab9e8" type="" {...field} />
+                    </FormControl>
+                    <FormDescription>Id Kepala Kejuruan</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="name"
