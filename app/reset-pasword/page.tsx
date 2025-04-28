@@ -4,6 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
 
 import {
   Form,
@@ -22,21 +23,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-// Schema for password validation
+
 const formSchema = z
   .object({
     password: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters long" })
-      .regex(/[a-zA-Z0-9]/, { message: "Password must be alphanumeric" }),
+      .min(6, { message: "Password harus minimal 6 karakter" })
+      .regex(/[a-zA-Z0-9]/, {
+        message: "Password hanya boleh mengandung huruf dan angka",
+      }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
-    message: "Passwords do not match",
+    message: "Password tidak cocok",
   });
 
-export default function ResetPasswordPreview() {
+export default function ResetPasswordPage() {
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,14 +51,41 @@ export default function ResetPasswordPreview() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // Assuming an async reset password function
-      console.log(values);
-      toast.success(
-        "Password reset successful. You can now log in with your new password."
+
+      const response = await fetch(
+        "http://127.0.0.1:3000/api/v1/auth/reset-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            newPassword: values.password,
+          }),
+        }
       );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Gagal mengubah password");
+      }
+
+      toast.success(
+        "Password berhasil diubah! Silakan login dengan password baru"
+      );
+      form.reset();
+
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
     } catch (error) {
-      console.error("Error resetting password", error);
-      toast.error("Failed to reset the password. Please try again.");
+      console.error("Gagal mengubah password:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Terjadi kesalahan, silakan coba lagi"
+      );
     }
   }
 
@@ -62,26 +93,26 @@ export default function ResetPasswordPreview() {
     <div className="flex min-h-svh h-full w-full items-center justify-center px-4">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Reset Password</CardTitle>
+          <CardTitle className="text-2xl">Atur Ulang Password</CardTitle>
           <CardDescription>
-            Enter your new password to reset your password.
+            Masukkan password baru Anda untuk mengatur ulang password
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid gap-4">
-                {/* New Password Field */}
                 <FormField
                   control={form.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem className="grid gap-2">
-                      <FormLabel htmlFor="password">New Password</FormLabel>
+                      <FormLabel htmlFor="password">Password Baru</FormLabel>
                       <FormControl>
                         <Input
                           id="password"
-                          placeholder="******"
+                          type="password"
+                          placeholder="Masukkan password baru"
                           autoComplete="new-password"
                           {...field}
                         />
@@ -91,19 +122,19 @@ export default function ResetPasswordPreview() {
                   )}
                 />
 
-                {/* Confirm Password Field */}
                 <FormField
                   control={form.control}
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem className="grid gap-2">
                       <FormLabel htmlFor="confirmPassword">
-                        Confirm Password
+                        Konfirmasi Password
                       </FormLabel>
                       <FormControl>
                         <Input
                           id="confirmPassword"
-                          placeholder="******"
+                          type="password"
+                          placeholder="Konfirmasi password baru"
                           autoComplete="new-password"
                           {...field}
                         />
@@ -113,8 +144,14 @@ export default function ResetPasswordPreview() {
                   )}
                 />
 
-                <Button type="submit" className="w-full">
-                  Reset Password
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={form.formState.isSubmitting}
+                >
+                  {form.formState.isSubmitting
+                    ? "Memproses..."
+                    : "Atur Ulang Password"}
                 </Button>
               </div>
             </form>

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
+import axios from "axios";
 import {
   Form,
   FormControl,
@@ -22,28 +22,35 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
-// Schema for email validation
+
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
 });
 
 export default function ForgetPasswordPreview() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-    },
+    defaultValues: { email: "" },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      // Assuming a function to send reset email
-      console.log(values);
-      toast.success("Password reset email sent. Please check your inbox.");
-    } catch (error) {
-      console.error("Error sending password reset email", error);
-      toast.error("Failed to send password reset email. Please try again.");
+      const response = await axios.post(
+        `http://localhost:3000/api/v1/auth/kode-otp`,
+        data
+      );
+
+      if (response.status === 200) {
+        toast.success("OTP telah dikirim ke email Anda");
+        router.push(`/otp?email=${encodeURIComponent(data.email)}`);
+      }
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || "Gagal mengirim OTP";
+      toast.error(errorMessage);
     }
   }
 
@@ -51,25 +58,23 @@ export default function ForgetPasswordPreview() {
     <div className="flex min-h-svh h-full w-full items-center justify-center px-4">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Forgot Password</CardTitle>
+          <CardTitle className="text-2xl">Lupa Password</CardTitle>
           <CardDescription>
-            Enter your email address to receive a password reset link.
+            Masukkan email Anda untuk menerima link reset password
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid gap-4">
-                {/* Email Field */}
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem className="grid gap-2">
-                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
-                          id="email"
                           placeholder="johndoe@mail.com"
                           type="email"
                           autoComplete="email"
@@ -81,7 +86,7 @@ export default function ForgetPasswordPreview() {
                   )}
                 />
                 <Button type="submit" className="w-full">
-                  Send Reset Link
+                  Kirim 
                 </Button>
               </div>
             </form>

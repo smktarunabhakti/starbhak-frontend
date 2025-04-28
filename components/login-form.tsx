@@ -10,6 +10,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useForm } from "react-hook-form";
+import Axios from "axios";
+import { setCookie } from "cookies-next";
+
 
 interface FormValues {
   email: string;
@@ -28,16 +31,38 @@ export function LoginForm({
   } = useForm<FormValues>();
 
   
-  const onSubmit = (data: FormValues) => {
-    console.log("Form Data:", data);
-  };
+
+const onSubmit = async (data: FormValues) => {
+  try {
+    const response = await Axios.post(
+      "http://localhost:3000/api/v1/auth/login",
+      data
+    );
+
+    setCookie(
+      "auth",
+      JSON.stringify({
+        token: response.data.token,
+        user: response.data.user,
+      }),
+      {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 
+        path: "/",
+      }
+    );
+    alert("Berhasil login");
+  } catch (error: any) {
+    console.error("Gagal login", error);
+    alert(error.response?.data?.message || "Gagal login");
+  }
+};
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back</CardTitle>
-          <CardDescription>Login with your email and password</CardDescription>
+          <CardTitle className="text-xl">Taruna Bhakti</CardTitle>
+          <CardDescription>Login dengan email dan password</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -72,14 +97,14 @@ export function LoginForm({
                       href="/forgot-password"
                       className="ml-auto text-sm underline-offset-4 hover:underline"
                     >
-                      Forgot your password?
+                      lupa password?
                     </a>
                   </div>
                   <Input id="password" type="password" {... register("password",{
                     required: "password dibutuhkan",
                     minLength:{
                       value: 6,
-                      message: "Password Setidaknya 8 huruf"
+                      message: "Password Setidaknya 6 huruf"
                     }
                   })} />
                   {errors.password && (
