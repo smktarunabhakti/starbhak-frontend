@@ -74,7 +74,7 @@ const onSubmit = async (data: FormValues) => {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="m@example.com"
+                    placeholder="johndoe@gmail.com"
                     {...register("email", {
                       required: "dibutuhkan email",
                       pattern: {

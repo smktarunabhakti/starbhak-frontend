@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
+  email: z.string().email({ message: "alamat email tidak valid" }),
 });
 
 export default function ForgetPasswordPreview() {
@@ -47,11 +47,17 @@ export default function ForgetPasswordPreview() {
         toast.success("OTP telah dikirim ke email Anda");
         router.push(`/otp?email=${encodeURIComponent(data.email)}`);
       }
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || "Gagal mengirim OTP";
-      toast.error(errorMessage);
-    }
+
+    }  catch (error: any) {
+        if (error.response?.status === 404) {
+          form.setError("email", { message: "Akun tidak ditemukan" });
+        } else if (error.response?.status === 500) {
+          form.setError("email", { message: "Terjadi kesalahan pada server, coba lagi nanti" });
+        } else {
+          const errorMessage = error.response?.data?.message || "Gagal mengirim OTP";
+          form.setError("email", { message: errorMessage });
+        }
+      }
   }
 
   return (

@@ -41,7 +41,6 @@ export default function InputOTPForm() {
     defaultValues: { pin: "" },
   });
 
-
   useEffect(() => {
     if (form.watch("pin").length === 6) {
       form.handleSubmit(onSubmit)();
@@ -60,7 +59,10 @@ export default function InputOTPForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       if (!email) {
-        toast.error("Email tidak ditemukan");
+        form.setError("pin", {
+          type: "manual",
+          message: "Email tidak ditemukan",
+        });
         return;
       }
 
@@ -78,17 +80,20 @@ export default function InputOTPForm() {
       );
 
       if (response.status === 200) {
-        
+        const token = response.data.resetPasswordToken
 
         toast.success("OTP berhasil diverifikasi");
-        window.location.href = '/reset-password';
+        window.location.href = `/reset-password?token=${encodeURIComponent(token)}`;
       }
     } catch (error) {
       let errorMessage = "Terjadi kesalahan sistem";
       if (axios.isAxiosError(error)) {
         errorMessage = error.response?.data?.error || error.message;
       }
-      toast.error(errorMessage);
+      form.setError("pin", {
+        type: "manual",
+        message: errorMessage,
+      });
       form.resetField("pin");
     }
   }
@@ -97,7 +102,7 @@ export default function InputOTPForm() {
     try {
       setIsResending(true);
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/kode-otp`,
+        `http://localhost:3000/api/v1/auth/kode-otp`,
         { email }
       );
       if (response.status === 200) {
@@ -109,7 +114,10 @@ export default function InputOTPForm() {
       if (axios.isAxiosError(error)) {
         errorMessage = error.response?.data?.error || error.message;
       }
-      toast.error(errorMessage);
+      form.setError("pin", {
+        type: "manual",
+        message: errorMessage,
+      });
     } finally {
       setIsResending(false);
     }
@@ -132,6 +140,7 @@ export default function InputOTPForm() {
                 </FormLabel>
                 <FormControl>
                   <InputOTP
+                    disabled={form.formState.isSubmitting}
                     maxLength={6}
                     {...field}
                     render={({ slots }) => (

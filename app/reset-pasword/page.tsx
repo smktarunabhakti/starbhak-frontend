@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
 
+
 import {
   Form,
   FormControl,
@@ -31,7 +32,10 @@ const formSchema = z
       .min(6, { message: "Password harus minimal 6 karakter" })
       .regex(/[a-zA-Z0-9]/, {
         message: "Password hanya boleh mengandung huruf dan angka",
-      }),
+      })
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
+      message: "Harus mengandung huruf besar, kecil, angka, dan simbol",
+     }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -40,7 +44,8 @@ const formSchema = z
   });
 
 export default function ResetPasswordPage() {
-  
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token"); 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,16 +56,22 @@ export default function ResetPasswordPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      if (!token) {
+        toast.error("Silahkan ulangi reset password");
+        window.location.href = "/forgot-password";
+        return
+      }
 
       const response = await fetch(
         "http://127.0.0.1:3000/api/v1/auth/reset-password",
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            newPassword: values.password,
+            passwordHash: values.password,
+            resetPasswordToken: token,
           }),
         }
       );
@@ -81,13 +92,24 @@ export default function ResetPasswordPage() {
       }, 2000);
     } catch (error) {
       console.error("Gagal mengubah password:", error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Terjadi kesalahan, silakan coba lagi"
-      );
+      form.setError("password", {
+        type: "manual",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Terjadi kesalahan, silakan coba lagi",
+      });
+      form.setError("confirmPassword", {
+        type: "manual",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Terjadi kesalahan, silakan coba lagi",
+      });
     }
   }
+
+
 
   return (
     <div className="flex min-h-svh h-full w-full items-center justify-center px-4">
