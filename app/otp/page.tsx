@@ -78,8 +78,7 @@ export default function InputOTPForm() {
       );
 
       if (response.status === 200) {
-        const token = response.data.token;
-        localStorage.setItem("resetToken", token);
+        
 
         toast.success("OTP berhasil diverifikasi");
         window.location.href = '/reset-password';
