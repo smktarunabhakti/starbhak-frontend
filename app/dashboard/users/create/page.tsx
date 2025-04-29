@@ -25,6 +25,9 @@ import {
 } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/sonner";
 import { addUsers } from "./add-users";
+import {
+  PasswordInput
+} from "@/components/ui/password-input";
 
 const formSchema = z.object({
   email: z.string(),
@@ -60,33 +63,18 @@ export default function MyForm() {
           >
             <FormField
               control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>E-mail</FormLabel>
-                  <FormControl>
-                    <Input placeholder="afton@gmail.com" type="" {...field} />
-                  </FormControl>
-                  <FormDescription>email user</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="jeff the land shark"
+                      placeholder="shadcn"
+
                       type=""
-                      {...field}
-                    />
+                      {...field} />
                   </FormControl>
-                  <FormDescription>Nama user</FormDescription>
+                  <FormDescription>This is your public display name.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -94,26 +82,18 @@ export default function MyForm() {
 
             <FormField
               control={form.control}
-              name="role"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Guru" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="guru">guru</SelectItem>
-                      <SelectItem value="siswa">siswa</SelectItem>
-                      <SelectItem value="staf">staf</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>role user</FormDescription>
+                  <FormLabel>E-mail</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="guru@gmail.com"
+
+                      type=""
+                      {...field} />
+                  </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -121,30 +101,38 @@ export default function MyForm() {
 
             <FormField
               control={form.control}
-              name="status"
+              name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Status</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Is active" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Is_active">Is active</SelectItem>
-                      <SelectItem value="Isnt_active">Isnt active</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>Status keafktifan user</FormDescription>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <PasswordInput placeholder="Placeholder" {...field} />
+                  </FormControl>
+                  <FormDescription>Enter your password.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+
+
+            <FormField
+              control={form.control}
+              name="roleId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role ID</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="1"
+
+                      type=""
+                      {...field} />
+                  </FormControl>
+                  <FormDescription>This is your public display name.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />            <Button type="submit">Submit</Button>
           </form>
         </Form>
       </div>

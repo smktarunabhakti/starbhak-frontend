@@ -41,6 +41,8 @@ const formSchema = z.object({
   gender: z.string(),
   email: z.string(),
   isActive: z.string(),
+  user_id: z.string(),
+  teacher_id: z.string(),
 });
 
 export default function MyForm() {
@@ -53,6 +55,8 @@ export default function MyForm() {
       gender: "",
       email: "",
       isActive: "",
+      user_id: "1",
+      teacher_id: "",
     },
   });
 
@@ -207,12 +211,12 @@ export default function MyForm() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Is active" />
+                        <SelectValue placeholder="" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="Is active">Is active</SelectItem>
-                      <SelectItem value="Isnt active">Isnt active</SelectItem>
+                      <SelectItem value="true">Is active</SelectItem>
+                      <SelectItem value="false">Isnt active</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormDescription>status keaftifan guru</FormDescription>

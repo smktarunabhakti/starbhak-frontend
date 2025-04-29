@@ -108,7 +108,7 @@ export function DataTable<TData, TValue>({
             variant="outline"
             className="flex items-center justify-between p-4"
           >
-            <a href="/users/create">Add new user +</a>
+            <a href="users/create">Add new user +</a>
           </Button>
         </div>
       </div>
@@ -123,9 +123,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}

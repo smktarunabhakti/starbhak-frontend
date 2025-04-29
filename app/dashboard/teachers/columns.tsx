@@ -16,7 +16,7 @@ import {
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
+export type Teacher = {
   id: string;
   email: string;
   name: string;
@@ -24,10 +24,11 @@ export type Payment = {
   PoB: string;
   gender: string;
   user_id: string;
+  teacher_id: string;
   isActive: "Is active" | "Isnt active";
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns = (onDelete: (id: string) => void): ColumnDef<Teacher>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -87,7 +88,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 
   {
-    accessorKey: "user_id",
+    accessorKey: "userId",
     header: "user_id",
   },
   {
@@ -98,7 +99,7 @@ export const columns: ColumnDef<Payment>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const kejuruan = row.original;
+      const guru = row.original;
 
       return (
         <DropdownMenu>
@@ -111,13 +112,20 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(kejuruan.id)}
+              onClick={() => navigator.clipboard.writeText(guru.teacher_id.toString())}
             >
-              Copy kejuruan ID
+              Copy guru ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>
+              <a href={`teachers/edit/${guru.teacher_id?.toString() ?? ""}`}>
+                Edit
+              </a>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => onDelete(guru.teacher_id.toString())}>
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
