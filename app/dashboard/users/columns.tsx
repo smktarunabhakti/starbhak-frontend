@@ -16,7 +16,7 @@ import {
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
+export type user = {
   id: string;
   email: string;
   name: string;
@@ -25,7 +25,7 @@ export type Payment = {
   lastLogin: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns = (onDelete: (id: string) => void): ColumnDef<user>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -86,7 +86,7 @@ export const columns: ColumnDef<Payment>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const kejuruan = row.original;
+      const user = row.original;
 
       return (
         <DropdownMenu>
@@ -99,13 +99,19 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(kejuruan.id)}
+              onClick={() => navigator.clipboard.writeText(user.id.toString())}
             >
               Copy kejuruan ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>
+              <a href={`users/edit/${user.id.toString}`}>
+                Edit
+              </a>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => onDelete(user.id.toString())}
+            >Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

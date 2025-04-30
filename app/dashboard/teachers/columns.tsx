@@ -28,7 +28,7 @@ export type Teacher = {
   isActive: "Is active" | "Isnt active";
 };
 
-export const columns = (onDelete: (id: string) => void): ColumnDef<Teacher>[] => [
+export const columns = (onDelete: (teacher_id: string) => void): ColumnDef<Teacher>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -88,7 +88,7 @@ export const columns = (onDelete: (id: string) => void): ColumnDef<Teacher>[] =>
   },
 
   {
-    accessorKey: "userId",
+    accessorKey: "user_id",
     header: "user_id",
   },
   {
@@ -123,7 +123,7 @@ export const columns = (onDelete: (id: string) => void): ColumnDef<Teacher>[] =>
               </a>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => onDelete(guru.teacher_id.toString())}>
+              onClick={() => onDelete(guru.teacher_id)}>
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>

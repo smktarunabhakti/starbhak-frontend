@@ -19,38 +19,50 @@ import {
 import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import getData from "./get-users";
+import { useEffect, useState } from "react";
 
-async function getData(): Promise<Payment[]> {
-  return [
-    {
-      id: "728ed52f",
-      email: "miranda@gmail.com",
-      name: "Miranda S.pd",
-      roleId: "82123hab",
-      isActive: "Is active",
-      lastLogin: "20/4/2024",
-    },
-    {
-      id: "728ed52f",
-      email: "miranda@gmail.com",
-      name: "Miranda S.pd",
-      roleId: "82123hab",
-      isActive: "Is active",
-      lastLogin: "20/4/2024",
-    },
-    {
-      id: "728ed52f",
-      email: "miranda@gmail.com",
-      name: "Miranda S.pd",
-      roleId: "82123hab",
-      isActive: "Is active",
-      lastLogin: "20/4/2024",
-    },
-  ];
+interface apiResponse {
+  id: string,
+  name: string,
+  email: string,
+  roleId: string,
+  isActive: string,
+  lastLogin: string,
 }
 
-export default async function Page() {
-  const data = await getData();
+export default function Page() {
+  const [data, setData] = useState<apiResponse[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const result = await getData();
+      setData(result);
+    } catch (err) {
+      console.error("error: failed to fetch ", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const deleteUsers = async (id: string) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:3000/api/v1/master-data/users/${id}`,
+        { method: "DELETE" }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete major");
+      }
+      fetchData();
+    } catch (error) {
+      console.error("Error deleting major:", error);
+    }
+  };
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -78,7 +90,7 @@ export default async function Page() {
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
             <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-4">
-              <DataTable columns={columns} data={data} />
+              <DataTable columns={columns(deleteUsers)} data={data} />
             </div>
           </div>
         </ScrollArea>

@@ -33,6 +33,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { addTeachers } from "./add-teacher";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string(),
@@ -46,6 +47,7 @@ const formSchema = z.object({
 });
 
 export default function MyForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,7 +56,7 @@ export default function MyForm() {
       PoB: "",
       gender: "",
       email: "",
-      isActive: "",
+      isActive: "true",
       user_id: "1",
       teacher_id: "",
     },
@@ -199,32 +201,7 @@ export default function MyForm() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="isActive"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>isActive</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="true">Is active</SelectItem>
-                      <SelectItem value="false">Isnt active</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>status keaftifan guru</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" onClick={() => router.back()}>Submit</Button>
           </form>
         </Form>
       </div>

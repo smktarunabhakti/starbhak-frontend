@@ -1,11 +1,8 @@
 "use client";
-import { useState } from "react";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Toaster } from "@/components/ui/sonner";
 import * as z from "zod";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,7 +21,6 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
 import { editMajors } from "../edit-majors";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -48,6 +44,7 @@ export default function MyForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("editttt teachers")
     editMajors(values, params.id.toString());
   }
 
@@ -93,27 +90,27 @@ export default function MyForm() {
               />
 
               <FormField
-          control={form.control}
-          name="isActive"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Is Active</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="True" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="true">True</SelectItem>
-                  <SelectItem value="false">False</SelectItem>
-                </SelectContent>
-              </Select>
-                <FormDescription>status keaftifan kejuruan</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                control={form.control}
+                name="isActive"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Is Active</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="True" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="true">True</SelectItem>
+                        <SelectItem value="false">False</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>status keaftifan kejuruan</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button type="submit" onClick={() => router.back()}>
                 Submit
               </Button>

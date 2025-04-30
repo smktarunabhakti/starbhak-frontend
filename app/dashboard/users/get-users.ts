@@ -6,10 +6,11 @@ export default async function getData(): Promise<[apiResponse]> {
 
   return res.data.data.schoolYear.map((subject: any) => ({
     id: subject.id.toString(),
-    majors_id: subject.majors_id.toString(),
-    majors_head_id: subject.majors_head_id,
     name: subject.name,
-    isActive: subject.isActive.toString(),
+    email: subject.email,
+    password: subject.password,
+    roleId: subject.roleId,
+    isActive: subject.isActive,
     createdAt: subject.createdAt,
     updatedAt: subject.updatedAt,
   }));

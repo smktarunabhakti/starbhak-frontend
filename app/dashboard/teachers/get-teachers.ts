@@ -9,10 +9,11 @@ export default async function getData(): Promise<[apiResponse]> {
     name: subject.name,
     email: subject.email,
     gender: subject.gender,
-    teachers_id: subject.teachers_id.toString(),
+    teacher_id: subject.teacher_id,
+    user_id: subject.user_id,
     DoB: subject.DoB,
     PoB: subject.PoB,
-    isActive: subject.isActive.toString(),
+    isActive: subject.isActive,
     createdAt: subject.createdAt,
     updatedAt: subject.updatedAt,
   }));

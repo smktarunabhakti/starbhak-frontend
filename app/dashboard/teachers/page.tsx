@@ -28,6 +28,7 @@ import getData from './get-teachers';
 
 interface apiResponse {
   id: string,
+  teacher_id: string,
   name: string,
   email: string,
   DoB: string,
@@ -55,10 +56,10 @@ export default function Page() {
     fetchData();
   }, []);
 
-  const deleteTeachers = async (id: string) => {
+  const deleteTeachers = async (teacher_id: string) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:3000/api/v1/master-data/teachers/${id}`,
+        `http://127.0.0.1:3000/api/v1/master-data/teachers/${teacher_id}`,
         { method: "DELETE" }
       );
 
