@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { AppSidebar } from "@/components/custom/sidebar/app-sidebar";
+import { useState, useEffect } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,61 +17,60 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { ModeToggle } from "@/components/ui/ModeToggle";
+import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
-import { columns, Majors } from "./columns";
-import { toast } from "sonner";
-import path from "path";
-import { Component } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { ColumnDef } from "@tanstack/react-table"
-import MyForm from "./edit/[id]/page";
-import getData from "./get-majors";
+import { Link, School, Users } from "lucide-react";
+import { ModeToggle } from "@/components/ui/ModeToggle";
+import getData from './get-teachers';
 
 interface apiResponse {
-    id: string,
-    majors_id: string,
-    majors_head_id: string,
-    name: string,
-    isActive: string,
-    createdAt: string,
-    updatedAt: string,
+  id: string,
+  teacher_id: string,
+  name: string,
+  email: string,
+  DoB: string,
+  PoB: string,
+  isActive: string,
+  updatedAt: string,
 }
 
 export default function Page() {
   const [data, setData] = useState<apiResponse[]>([]);
 
-  const fetchData = async ()=> {
-     try {
+  const fetchData = async () => {
+    try {
       const result = await getData();
-      
+
       setData(result);
-     } catch (err) {
+    } catch (err) {
       console.error("error: failed to fetch ", err);
-      
-     } 
+
+    }
   };
- 
-  
+
+
   useEffect(() => {
-    fetchData();   
+    fetchData();
   }, []);
 
-  const deleteMajors = async (id: string) => {
-        try {
-          const response = await fetch(
-            `http://127.0.0.1:3000/api/v1/master-data/majors/${id}`,
-            { method: "DELETE" }
-          );
+  const deleteTeachers = async (teacher_id: string) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:3000/api/v1/master-data/teachers/${teacher_id}`,
+        { method: "DELETE" }
+      );
 
-          if (!response.ok) {
-            throw new Error("Failed to delete major");
-          }
-          fetchData();
-        } catch (error) {
-          console.error("Error deleting major:", error);
-        }
-      };
+      if (!response.ok) {
+        throw new Error("Failed to delete teacher");
+      }
+      fetchData();
+    } catch (error) {
+      console.error("Error deleting teacher:", error);
+    }
+  };
 
   return (
     <SidebarProvider>
@@ -89,7 +88,7 @@ export default function Page() {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Kejuruan</BreadcrumbPage>
+                    <BreadcrumbPage>Guru</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
@@ -98,10 +97,9 @@ export default function Page() {
               <ModeToggle />
             </div>
           </header>
-          <div className="flex items-center justify-between p-4 pt-4"></div>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
             <div className="rounded-xl bg-muted/90 border dark:border-none dark:bg-muted/50 col-span-4">
-              <DataTable columns={columns(deleteMajors)} data={data} />
+              <DataTable columns={columns(deleteTeachers)} data={data} />
             </div>
           </div>
         </ScrollArea>

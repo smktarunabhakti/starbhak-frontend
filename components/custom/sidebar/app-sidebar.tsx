@@ -43,6 +43,23 @@ const data = {
   ],
   projects: [
     {
+      name: "Guru",
+      url: "/dashboard/teachers",
+      icon: Frame,
+    },
+    {
+      name: "Jadwal Guru",
+      url: "/dashboard/teachers-schedule",
+      icon: PieChart,
+    },
+    {
+      name: "Kejuruan",
+      url: "/dashboard/majors",
+      icon: Map,
+    },
+    {
+      name: "User",
+      url: "/dashboard/users",
       name: "Kelas",
       url: "/dashboard/study-groups",
       icon: Frame,

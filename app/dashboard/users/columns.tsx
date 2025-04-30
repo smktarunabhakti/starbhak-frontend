@@ -1,9 +1,10 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Link, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,21 +13,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import getData from "./get-majors";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Majors = {
-  id: number;
-  majors_id: string;
-  majors_head_id: string;
+export type user = {
+  id: string;
+  email: string;
   name: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
+  roleId: string;
+  isActive: "Is active" | "Isnt active";
+  lastLogin: string;
 };
 
-export const columns= (onDelete: (id: string) => void): ColumnDef<Majors>[] => [
+export const columns = (onDelete: (id: string) => void): ColumnDef<user>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -51,38 +50,44 @@ export const columns= (onDelete: (id: string) => void): ColumnDef<Majors>[] => [
   },
   {
     accessorKey: "id",
-    header: "Id",
+    header: "id",
   },
   {
-    accessorKey: "majors_id",
-    header: "ID jurusan",
-  },
-  {
-    accessorKey: "majors_head_id",
-    header: "ID kepala jurusan",
+    accessorKey: "email",
+    header: "Email",
   },
   {
     accessorKey: "name",
-    header: "Nama jurusan",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "roleId",
+    header: "Role Id",
   },
   {
     accessorKey: "isActive",
-    header: "Status aktif",
+    header: "Status",
   },
   {
-    accessorKey: "createdAt",
-    header: "Created at",
+    accessorKey: "lastLogin",
+    header: "Last Login",
   },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated at",
-  },
+
   {
     id: "actions",
     cell: ({ row }) => {
-      const kejuruan = row.original;
+      const user = row.original;
 
-     
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -94,23 +99,19 @@ export const columns= (onDelete: (id: string) => void): ColumnDef<Majors>[] => [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(kejuruan.majors_id.toString())
-              }
+              onClick={() => navigator.clipboard.writeText(user.id.toString())}
             >
               Copy kejuruan ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <a href={`majors/edit/${kejuruan.majors_id.toString()}`}>
+              <a href={`users/edit/${user.id.toString}`}>
                 Edit
               </a>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => onDelete(kejuruan.majors_id.toString())}
-            >
-              Delete
-            </DropdownMenuItem>
+              onClick={() => onDelete(user.id.toString())}
+            >Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

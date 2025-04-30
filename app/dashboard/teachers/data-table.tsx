@@ -5,20 +5,14 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel,
   useReactTable,
   getPaginationRowModel,
-  getFilteredRowModel,
-  ColumnFiltersState,
 } from "@tanstack/react-table";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -28,9 +22,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import * as XLSX from "xlsx";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import React from "react";
 
 interface DataTableProps<TData, TValue> {
@@ -50,32 +49,26 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
-      // sorting,
+      sorting,
       columnFilters,
     },
   });
 
-  function downloadExcel(data: TData[]): void {
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-    //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
-    //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
-    XLSX.writeFile(workbook, "DataSheet.xlsx");
-  }
-
   return (
     <div className="p-6">
       <div className="">
-        <h6>Majors Management</h6>
+        <h6>Teachers Management</h6>
       </div>
       <div className="flex items-center p-4 justify-between">
         <Input
@@ -86,7 +79,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <div className="flex gap-1 items-center p-1 ">
+        <div className="flex items-center p-1">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">Export</Button>
@@ -95,8 +88,8 @@ export function DataTable<TData, TValue>({
               <DropdownMenuLabel>Format</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem
+                checked={showStatusBar}
                 onCheckedChange={setShowStatusBar}
-                onClick={() => downloadExcel(data)}
               >
                 Excel
               </DropdownMenuCheckboxItem>
@@ -106,7 +99,7 @@ export function DataTable<TData, TValue>({
             variant="outline"
             className="flex items-center justify-between p-4"
           >
-            <a href="majors/create">Add new major +</a>
+            <a href="teachers/create">Add new teacher +</a>
           </Button>
         </div>
       </div>
@@ -121,9 +114,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}

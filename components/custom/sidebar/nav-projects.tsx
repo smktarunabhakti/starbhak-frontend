@@ -39,13 +39,13 @@ export function NavProjects({
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarMenu>
-      <SidebarMenuItem>
+        <SidebarMenuItem>
           <SidebarMenuButton>
-            <MoreHorizontal/>
+            <MoreHorizontal />
             <a href="/dashboard">Dashboard Utama</a>
           </SidebarMenuButton>
         </SidebarMenuItem>
-        <SidebarGroupLabel>Manajemen Kelas & Murid</SidebarGroupLabel>
+        <SidebarGroupLabel>Manajemen Kejuruan & Guru</SidebarGroupLabel>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
