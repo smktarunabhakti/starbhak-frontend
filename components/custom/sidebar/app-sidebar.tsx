@@ -60,6 +60,28 @@ const data = {
     {
       name: "User",
       url: "/dashboard/users",
+      name: "Kelas",
+      url: "/dashboard/study-groups",
+      icon: Frame,
+    },
+    {
+      name: "Murid",
+      url: "/dashboard/students",
+      icon: PieChart,
+    },
+    {
+      name: "Mata Pelajaran",
+      url: "/dashboard/subject",
+      icon: Map,
+    },
+    {
+      name: "Tahun Ajaran",
+      url: "/dashboard/school-years",
+      icon: Map,
+    },
+    {
+      name: "Attendance Permittance",
+      url: "/dashboard/attendance-permittance",
       icon: Map,
     },
   ],
