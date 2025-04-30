@@ -26,7 +26,7 @@ import {
 const FormSchema = z.object({
   pin: z
     .string()
-    .min(6, { message: "OTP harus 6 digit" })
+    .min(4, { message: "OTP harus 4 digit" })
     .regex(/^\d+$/, { message: "Hanya angka yang diperbolehkan" }),
 });
 
@@ -42,7 +42,7 @@ export default function InputOTPForm() {
   });
 
   useEffect(() => {
-    if (form.watch("pin").length === 6) {
+    if (form.watch("pin").length === 4) {
       form.handleSubmit(onSubmit)();
     }
   }, [form.watch("pin")]);
@@ -67,7 +67,7 @@ export default function InputOTPForm() {
       }
 
       const response = await axios.post(
-        `http://localhost:3000/api/v1/auth/verify-otp`,
+        `http://localhost:3000/api/v1/auth/kode-otp/confirm`,
         {
           email,
           otp: data.pin,
@@ -80,15 +80,16 @@ export default function InputOTPForm() {
       );
 
       if (response.status === 200) {
-        const token = response.data.resetPasswordToken
-
-        toast.success("OTP berhasil diverifikasi");
-        window.location.href = `/reset-password?token=${encodeURIComponent(token)}`;
+        const token = response.data.data.token;
+        
+        window.location.href = `/reset-password?email=${encodeURIComponent(
+          email
+        )}&token=${encodeURIComponent(token)}`;
       }
     } catch (error) {
       let errorMessage = "Terjadi kesalahan sistem";
       if (axios.isAxiosError(error)) {
-        errorMessage = error.response?.data?.error || error.message;
+        errorMessage = error.response?.data?.data?.error || error.message;
       }
       form.setError("pin", {
         type: "manual",
@@ -107,7 +108,9 @@ export default function InputOTPForm() {
       );
       if (response.status === 200) {
         toast.success("OTP baru telah dikirim");
-        setResendCooldown(30);
+        const newCooldown = resendCooldown + 30;
+        setResendCooldown(newCooldown);
+
       }
     } catch (error) {
       let errorMessage = "Gagal mengirim ulang OTP";
@@ -135,22 +138,22 @@ export default function InputOTPForm() {
             name="pin"
             render={({ field }) => (
               <FormItem className="text-center">
-                <FormLabel className="text-2xl font-semibold">
+                <FormLabel className="text-2xl font-semibold ">
                   Verifikasi OTP
                 </FormLabel>
                 <FormControl>
                   <InputOTP
                     disabled={form.formState.isSubmitting}
-                    maxLength={6}
+                    maxLength={4}
                     {...field}
                     render={({ slots }) => (
-                      <InputOTPGroup className="gap-2">
+                      <InputOTPGroup className="flex justify-center gap-4 ml-14 mt-2" >
                         {slots.map((slot, index) => (
                           <InputOTPSlot
                             key={index}
                             index={index}
                             {...slot}
-                            className="h-16 w-16 text-3xl border-2 rounded-lg focus-visible:ring-2 focus-visible:ring-primary"
+                            className="h-16 w-16 text-3xl border-2 rounded-lg focus-visible:ring-2 focus-visible:ring-primary text-foreground transition-colors hover:border-primary/50 text-black"
                           />
                         ))}
                       </InputOTPGroup>
@@ -158,7 +161,7 @@ export default function InputOTPForm() {
                   />
                 </FormControl>
                 <FormDescription className="text-lg">
-                  Masukkan 6 digit kode yang dikirim ke {email}
+                  Masukkan 4 digit kode yang dikirim ke {email}
                 </FormDescription>
                 <FormMessage />
               </FormItem>

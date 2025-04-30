@@ -50,7 +50,7 @@ const onSubmit = async (data: FormValues) => {
         path: "/",
       }
     );
-    alert("Berhasil login");
+    window.location.href = "/login";
   } catch (error: any) {
     console.error("Gagal login", error);
     alert(error.response?.data?.message || "Gagal login");

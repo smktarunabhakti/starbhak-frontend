@@ -24,6 +24,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 
 const formSchema = z
   .object({
@@ -32,10 +33,7 @@ const formSchema = z
       .min(6, { message: "Password harus minimal 6 karakter" })
       .regex(/[a-zA-Z0-9]/, {
         message: "Password hanya boleh mengandung huruf dan angka",
-      })
-      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
-      message: "Harus mengandung huruf besar, kecil, angka, dan simbol",
-     }),
+      }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -45,7 +43,9 @@ const formSchema = z
 
 export default function ResetPasswordPage() {
   const searchParams = useSearchParams();
+  const email = searchParams.get("email");
   const token = searchParams.get("token"); 
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,40 +56,33 @@ export default function ResetPasswordPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      if (!token) {
-        toast.error("Silahkan ulangi reset password");
-        window.location.href = "/forgot-password";
-        return
-      }
+      if (!email || !token || token === "undefined") {
+    toast.error("Permintaan reset password tidak valid");
+    window.location.href = "/login";
+  }
 
-      const response = await fetch(
+      const response = await axios.post(
         "http://127.0.0.1:3000/api/v1/auth/reset-password",
         {
-          method: "POST",
+          email,
+          newPass: values.password,
+          token,
+        },
+        {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", 
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            passwordHash: values.password,
-            resetPasswordToken: token,
-          }),
         }
       );
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Gagal mengubah password");
+      if (response.status === 200) {
+        alert("Password berhasil diubah! Silakan login dengan password baru");
+        form.reset();
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 2000);
       }
-
-      toast.success(
-        "Password berhasil diubah! Silakan login dengan password baru"
-      );
-      form.reset();
-
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 2000);
     } catch (error) {
       console.error("Gagal mengubah password:", error);
       form.setError("password", {
@@ -108,8 +101,6 @@ export default function ResetPasswordPage() {
       });
     }
   }
-
-
 
   return (
     <div className="flex min-h-svh h-full w-full items-center justify-center px-4">
