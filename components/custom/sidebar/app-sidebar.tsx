@@ -57,6 +57,16 @@ const data = {
       url: "/dashboard/subject",
       icon: Map,
     },
+    {
+      name: "Tahun Ajaran",
+      url: "/dashboard/school-years",
+      icon: Map,
+    },
+    {
+      name: "Attendance Permittance",
+      url: "/dashboard/attendance-permittance",
+      icon: Map,
+    },
   ],
 }
 
